@@ -1,0 +1,17 @@
+{
+    "task_type": "yahoo",
+    "N": 1,
+    "std_prior": 0.001,
+    "eta": 10,
+    "step_size": 0.01,
+    "lambda": 1,
+    "K": 100,
+    "K_not_updated": 1,
+    "b": 1000,
+    "nb_arms": 19,
+    "d": 12,
+    "context_size": 12,
+    "exp_name": "results/fglmc_yahoo1/",
+    "yahoo_size": 500000,
+    "agent": "FGLMC"
+}

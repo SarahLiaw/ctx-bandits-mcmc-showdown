@@ -1,0 +1,18 @@
+{
+    "project_name": "logistic_LMC",
+    "T":            10000,
+    "task_type":    "logistic", 
+    "N":            1,
+    "d":            20,      
+    "context_size": 20,          
+    "nb_arms":      50,
+    "std_prior":    0.01,
+    "eta":          10,           
+    "step_size":    0.001,
+    "K":            25,
+    "K_not_updated": 1,
+    "b":            1000,      
+    "std_reward":   1,          
+    "agent":        "LMC",         
+    "exp_name":     "results/logistic/lmc/"
+}

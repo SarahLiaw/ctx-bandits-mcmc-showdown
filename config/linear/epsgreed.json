@@ -1,0 +1,13 @@
+{
+   "std_reward": 0.5,
+    "agent": "EpsGreedy",
+    "task_type": "linear",
+    "project_name": "Lin_EpsGreedy",
+    "exp_name": "results/toy/epsgreedy/",
+    "T": 10000,
+    "N": 1,
+    "nb_arms": 5,
+    "d": 20,
+    "context_size": 4,
+    "epsilon": 0.01
+}

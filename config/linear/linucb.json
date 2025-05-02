@@ -1,0 +1,14 @@
+{
+    "task_type": "linear",
+    "N": 1,
+    "std_prior": 0.01,
+    "nb_arms": 5,
+    "d": 20,
+    "context_size": 4,
+    "exp_name": "results/toy/linucb1/",
+    "T": 10000,
+    "agent": "LinUCB",
+   "std_reward": 0.5,
+    "alpha": 1,
+    "project_name": "Lin_LinUCB"
+}

@@ -1,0 +1,20 @@
+{
+    "std_reward": 1,
+    "project_name": "logistic_FGMALA",
+    "T": 10000,
+    "task_type": "logistic",
+    "N": 1,
+    "std_prior": 0.01,
+    "eta": 10,
+    "step_size": 0.001,
+    "lambda": 0.5,
+    "K": 25,
+    "K_not_updated": 1,
+    "b": 1000,
+    "nb_arms": 50,
+    "d": 20,
+    "context_size": 20,
+    "accept_reject_step": 20,
+    "exp_name": "results/logistic/fg_mala/",
+    "agent": "FGMALA"
+}

@@ -1,0 +1,25 @@
+{
+   "std_reward": 0.5,
+    "T": 10000,
+    "task_type": "linear",
+    "N": 1,
+
+    "std_prior": 0.01,
+    "eta": 1,
+    "step_size": 0.1,
+
+    "lambda": 0.5,     
+    "b": 1000,      
+
+    "lambda_reg": 1.0,    
+    "K": 25,
+    "K_not_updated": 1,
+
+    "nb_arms": 5,
+    "d": 20,
+    "context_size": 4,
+
+    "exp_name": "results/toy/pfglmc/",
+    "agent": "PFGLMCTS",
+    "project_name": "Lin_PFGLMCTS"
+}

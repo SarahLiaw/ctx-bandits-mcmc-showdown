@@ -1,0 +1,17 @@
+{
+  "task_type": "linear",
+  "agent": "PLMCTS",
+  "T": 10000,
+  "d": 20,
+  "context_size": 4,
+  "nb_arms": 5,
+  "std_prior": 0.01,
+  "eta": 1,
+  "step_size": 0.1,
+  "lambda_reg": 1.0,
+  "K": 25,
+  "K_not_updated": 1,
+  "std_reward": 0.5,
+  "project_name": "Lin_PLMCTS",
+  "exp_name": "results/toy/plmc/"
+}
