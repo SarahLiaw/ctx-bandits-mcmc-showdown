@@ -1,0 +1,16 @@
+{"time":"2025-05-02T23:50:53.268265701Z","level":"INFO","msg":"stream: starting","core version":"0.19.9","symlink path":"/home/sarahl/MCMC_cb/wandb/run-20250502_235053-idcbl3e0/logs/debug-core.log"}
+{"time":"2025-05-02T23:50:53.403719835Z","level":"INFO","msg":"created new stream","id":"idcbl3e0"}
+{"time":"2025-05-02T23:50:53.403764185Z","level":"INFO","msg":"stream: started","id":"idcbl3e0"}
+{"time":"2025-05-02T23:50:53.403789045Z","level":"INFO","msg":"writer: Do: started","stream_id":"idcbl3e0"}
+{"time":"2025-05-02T23:50:53.403880705Z","level":"INFO","msg":"sender: started","stream_id":"idcbl3e0"}
+{"time":"2025-05-02T23:50:53.403992905Z","level":"INFO","msg":"handler: started","stream_id":"idcbl3e0"}
+{"time":"2025-05-02T23:50:53.548224715Z","level":"INFO","msg":"Starting system monitor"}
+{"time":"2025-05-02T23:50:57.75930937Z","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2025-05-02T23:50:57.75936106Z","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2025-05-02T23:50:57.997663124Z","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2025-05-02T23:50:58.233984475Z","level":"INFO","msg":"handler: operation stats","stats":{}}
+{"time":"2025-05-02T23:50:58.237757995Z","level":"INFO","msg":"stream: closing","id":"idcbl3e0"}
+{"time":"2025-05-02T23:50:58.237776515Z","level":"INFO","msg":"handler: closed","stream_id":"idcbl3e0"}
+{"time":"2025-05-02T23:50:58.237787455Z","level":"INFO","msg":"writer: Close: closed","stream_id":"idcbl3e0"}
+{"time":"2025-05-02T23:50:58.237805565Z","level":"INFO","msg":"sender: closed","stream_id":"idcbl3e0"}
+{"time":"2025-05-02T23:50:58.237880855Z","level":"INFO","msg":"stream: closed","id":"idcbl3e0"}

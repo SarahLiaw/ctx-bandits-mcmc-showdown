@@ -1,6 +1,4 @@
-# todo: i WANT YOU TO put THE CONFIG VALS IN A CSV FILE THAT IS IN THE SAME out_dir SUCH THAT THIS CSV FILE GETS UPDATED FOR EACH ALGORITHM
-
-
+import csv 
 import subprocess, json, shutil, os, random, glob, pathlib, time
 import numpy as np, torch, matplotlib.pyplot as plt
 import wandb
@@ -8,7 +6,7 @@ import wandb
 import argparse
 
 
-ROOT = pathlib.Path(__file__).resolve().parents[1] / "PLMC-TS"
+ROOT = pathlib.Path(__file__).resolve().parents[1] / "MCMC_cb"
 CFG_DIR = ROOT / "config" / "linear"
 i = 1
 while (ROOT / f"linear_results_{i}").exists():
@@ -37,6 +35,9 @@ def set_global_seed(seed):
 
 def main():
     DATA_DIR.mkdir(parents=True, exist_ok=True)
+    config_csv = OUT_DIR / "configs.csv"
+    csv_written = False
+
 
     for cfg_file in CFG_DIR.glob("*.json"):
         with open(cfg_file) as f:
