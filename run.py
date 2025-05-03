@@ -8,6 +8,7 @@ import pickle as pkl
 import json
 import wandb
 import os
+from pathlib import Path
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--config_path')
@@ -103,6 +104,8 @@ def run(config_path):
         config=info,
         reinit=True
         )
+    print(f"[run.py] launching game for agent={info['agent'].__name__}, out_dir={info.get('out_dir')}")
+
     info['game'](info).run()
     wandb.finish()
 

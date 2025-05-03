@@ -15,6 +15,7 @@ class GameToy(object):
     - info['T']: time horizon
     - info['d']: parameter dimension
     '''
+    
     def __init__(self, info):
         self.info = info
         if self.info['task_type'] == 'linear':
@@ -40,17 +41,14 @@ class GameToy(object):
         self.agent.update(action, reward, feature, self.arm_idx)
 
     def run(self):
+        print(f"[GameToy] start run; T={self.info['T']}  task={self.info['task_type']}")
+
         cum_regret = torch.zeros(self.info['T'])
         for t in range(self.info['T']):
             self.play(t, cum_regret)
         seed = os.environ.get("PYTHONHASHSEED", "0")
 
-        if self.info['task_type'] == 'linear':
-            result_dir = Path(self.info.get("out_dir", "linear_results")) / self.info["agent"].__name__ / f"seed{seed}"
-        elif self.info['task_type'] == 'logistic':
-            result_dir = Path(self.info.get("out_dir", "logistic_results")) / self.info["agent"].__name__ / f"seed{seed}"
-        else:
-            raise NotImplementedError
+        result_dir = Path(self.info.get("out_dir", "linear_results")) / self.info["agent"].__name__ / f"seed{seed}"
 
         result_dir.mkdir(parents=True, exist_ok=True)
         torch.save(cum_regret.cpu(), result_dir / "cum_regret.pt")

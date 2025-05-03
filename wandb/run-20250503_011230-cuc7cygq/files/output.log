@@ -1,0 +1,3 @@
+[run.py] launching game for agent=EpsGreedy, out_dir=/home/sarahl/MCMC_cb/linear_results_20250503_011217
+Initialized EpsGreedy: Arms=5, Epsilon=0.01, Decay=True, ForceExplore=True
+[GameToy] start run; T=10000  task=linear

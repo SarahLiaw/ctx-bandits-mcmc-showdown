@@ -1,0 +1,67 @@
+_wandb:
+    value:
+        cli_version: 0.19.9
+        m: []
+        python_version: 3.10.16
+        t:
+            "1":
+                - 1
+                - 55
+            "2":
+                - 1
+                - 55
+            "3":
+                - 13
+                - 16
+                - 23
+                - 55
+            "4": 3.10.16
+            "5": 0.19.9
+            "8":
+                - 5
+            "10":
+                - 20
+            "12": 0.19.9
+            "13": linux-x86_64
+K:
+    value: 25
+K_not_updated:
+    value: 1
+"N":
+    value: 1
+T:
+    value: 10000
+agent:
+    value: src.MCMC.SVRGMALATS
+batch_size:
+    value: 64
+context_size:
+    value: 4
+d:
+    value: 20
+eta:
+    value: 1
+exp_name:
+    value: results/toy/svrg_mala/
+game:
+    value: src.game.GameToy
+m_inner:
+    value: 10
+nb_arms:
+    value: 5
+out_dir:
+    value: linear_results
+phi:
+    value: __main__.load_config_file.<locals>.<lambda>
+phi_a:
+    value: __main__.load_config_file.<locals>.<lambda>
+project_name:
+    value: Lin_SVRGMALATS
+std_prior:
+    value: 0.01
+std_reward:
+    value: 0.5
+step_size:
+    value: 0.1
+task_type:
+    value: linear

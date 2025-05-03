@@ -1,7 +1,0 @@
-{"time":"2025-05-03T00:06:37.390330297Z","level":"INFO","msg":"stream: starting","core version":"0.19.9","symlink path":"/home/sarahl/MCMC_cb/wandb/run-20250503_000637-x08rdsun/logs/debug-core.log"}
-{"time":"2025-05-03T00:06:37.530482559Z","level":"INFO","msg":"created new stream","id":"x08rdsun"}
-{"time":"2025-05-03T00:06:37.530522079Z","level":"INFO","msg":"stream: started","id":"x08rdsun"}
-{"time":"2025-05-03T00:06:37.53065523Z","level":"INFO","msg":"handler: started","stream_id":"x08rdsun"}
-{"time":"2025-05-03T00:06:37.53066113Z","level":"INFO","msg":"sender: started","stream_id":"x08rdsun"}
-{"time":"2025-05-03T00:06:37.53079859Z","level":"INFO","msg":"writer: Do: started","stream_id":"x08rdsun"}
-{"time":"2025-05-03T00:06:37.644058677Z","level":"INFO","msg":"Starting system monitor"}
