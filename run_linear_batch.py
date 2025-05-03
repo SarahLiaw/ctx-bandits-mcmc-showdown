@@ -35,36 +35,36 @@ def set_global_seed(seed):
 
 def main():
     DATA_DIR.mkdir(parents=True, exist_ok=True)
-    config_csv = OUT_DIR / "configs.csv"
-    csv_written = False
-
-
+    configs = []
     for cfg_file in CFG_DIR.glob("*.json"):
-        with open(cfg_file) as f:
-            cfg = json.load(f)
-            if args.d is not None:
-                cfg["d"] = args.d
-        row = cfg.copy()
-        algo_name = cfg["agent"] if isinstance(cfg["agent"], str) else cfg["agent"]["name"]
-        row["agent_name"] = algo_name
-        if not csv_written:
-            with open(config_csv, "w", newline="") as f_csv:
-                writer = csv.DictWriter(f_csv, fieldnames=list(row.keys()))
-                writer.writeheader()
-                writer.writerow(row)
-            csv_written = True
-        else:
-            with open(config_csv, "a", newline="") as f_csv:
-                writer = csv.DictWriter(f_csv, fieldnames=list(row.keys()))
-                writer.writerow(row)
+        cfg = json.loads(cfg_file.read_text())
+        if args.d is not None:
+            cfg["d"] = args.d
+        # normalize agent name
+        cfg["agent_name"] = cfg["agent"] if isinstance(cfg["agent"], str) else cfg["agent"]["name"]
+        cfg["_path"] = cfg_file  # remember where it came from
+        configs.append(cfg)
 
+    all_keys = sorted({k for cfg in configs for k in cfg.keys() if k != "_path"})
+    # write the CSV
+    csv_path = OUT_DIR / "configs.csv"
+    with open(csv_path, "w", newline="") as f:
+        writer = csv.DictWriter(f, fieldnames=all_keys)
+        writer.writeheader()
+        for cfg in configs:
+            # for any missing key, dictwriter will insert blank
+            writer.writerow({k: cfg.get(k, "") for k in all_keys})
+
+
+    for cfg in configs:
+        algo_name = cfg["agent_name"]
         algo_out  = OUT_DIR / algo_name
         algo_out.mkdir(parents=True, exist_ok=True)
 
         print(f"\n=== {algo_name} ===")
         all_runs = []
-
         for seed in range(N_SEEDS):
+
             print(f"  seed {seed}")
             set_global_seed(seed)
 

@@ -1,3 +1,0 @@
-std_reward,agent,task_type,project_name,exp_name,T,N,nb_arms,d,context_size,epsilon,agent_name
-0.5,EpsGreedy,linear,Lin_EpsGreedy,results/toy/epsgreedy/,10000,1,5,20,4,0.01,EpsGreedy
-0.5,10000,linear,1,0.01,1,0.1,10,0.5,1000,25,1,5,20,4,results/toy/hmc/,FGHMCTS,Lin_FGHMCTS,FGHMCTS

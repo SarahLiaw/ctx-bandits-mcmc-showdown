@@ -1,0 +1,22 @@
+2025-05-03 00:05:07,952 INFO    MainThread:6267 [wandb_setup.py:_flush():67] Current SDK version is 0.19.9
+2025-05-03 00:05:07,953 INFO    MainThread:6267 [wandb_setup.py:_flush():67] Configure stats pid to 6267
+2025-05-03 00:05:07,953 INFO    MainThread:6267 [wandb_setup.py:_flush():67] Loading settings from /home/sarahl/.config/wandb/settings
+2025-05-03 00:05:07,953 INFO    MainThread:6267 [wandb_setup.py:_flush():67] Loading settings from /home/sarahl/MCMC_cb/wandb/settings
+2025-05-03 00:05:07,953 INFO    MainThread:6267 [wandb_setup.py:_flush():67] Loading settings from environment variables
+2025-05-03 00:05:07,953 INFO    MainThread:6267 [wandb_init.py:setup_run_log_directory():662] Logging user logs to /home/sarahl/MCMC_cb/wandb/run-20250503_000507-h8rjq9mr/logs/debug.log
+2025-05-03 00:05:07,953 INFO    MainThread:6267 [wandb_init.py:setup_run_log_directory():663] Logging internal logs to /home/sarahl/MCMC_cb/wandb/run-20250503_000507-h8rjq9mr/logs/debug-internal.log
+2025-05-03 00:05:07,953 INFO    MainThread:6267 [wandb_init.py:init():781] calling init triggers
+2025-05-03 00:05:07,953 INFO    MainThread:6267 [wandb_init.py:init():786] wandb.init called with sweep_config: {}
+config: {'std_reward': 0.5, 'T': 10000, 'task_type': 'linear', 'N': 1, 'std_prior': 0.01, 'eta': 1, 'step_size': 0.1, 'lambda': 0.5, 'K': 25, 'K_not_updated': 1, 'b': 1000, 'nb_arms': 5, 'd': 20, 'context_size': 4, 'accept_reject_step': 20, 'exp_name': 'results/toy/fg_mala/', 'agent': <class 'src.MCMC.FGMALATS'>, 'project_name': 'Lin_FGMALATS', 'phi': <function load_config_file.<locals>.<lambda> at 0x7f3c4703f910>, 'phi_a': <function load_config_file.<locals>.<lambda> at 0x7f3c4703fa30>, 'game': <class 'src.game.GameToy'>, 'out_dir': '/home/sarahl/MCMC_cb/linear_results_1', '_wandb': {}}
+2025-05-03 00:05:07,953 INFO    MainThread:6267 [wandb_init.py:init():809] starting backend
+2025-05-03 00:05:07,953 INFO    MainThread:6267 [wandb_init.py:init():813] sending inform_init request
+2025-05-03 00:05:07,956 INFO    MainThread:6267 [backend.py:_multiprocessing_setup():101] multiprocessing start_methods=fork,spawn,forkserver, using: spawn
+2025-05-03 00:05:07,956 INFO    MainThread:6267 [wandb_init.py:init():823] backend started and connected
+2025-05-03 00:05:07,957 INFO    MainThread:6267 [wandb_init.py:init():915] updated telemetry
+2025-05-03 00:05:07,961 INFO    MainThread:6267 [wandb_init.py:init():939] communicating run to backend with 90.0 second timeout
+2025-05-03 00:05:08,226 INFO    MainThread:6267 [wandb_init.py:init():1014] starting run threads in backend
+2025-05-03 00:05:08,283 INFO    MainThread:6267 [wandb_run.py:_console_start():2454] atexit reg
+2025-05-03 00:05:08,283 INFO    MainThread:6267 [wandb_run.py:_redirect():2306] redirect: wrap_raw
+2025-05-03 00:05:08,284 INFO    MainThread:6267 [wandb_run.py:_redirect():2371] Wrapping output streams.
+2025-05-03 00:05:08,284 INFO    MainThread:6267 [wandb_run.py:_redirect():2394] Redirects installed.
+2025-05-03 00:05:08,285 INFO    MainThread:6267 [wandb_init.py:init():1056] run started, returning control to user process

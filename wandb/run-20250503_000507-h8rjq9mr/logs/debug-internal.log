@@ -1,0 +1,9 @@
+{"time":"2025-05-03T00:05:07.958235164Z","level":"INFO","msg":"stream: starting","core version":"0.19.9","symlink path":"/home/sarahl/MCMC_cb/wandb/run-20250503_000507-h8rjq9mr/logs/debug-core.log"}
+{"time":"2025-05-03T00:05:08.087971907Z","level":"INFO","msg":"created new stream","id":"h8rjq9mr"}
+{"time":"2025-05-03T00:05:08.088031797Z","level":"INFO","msg":"stream: started","id":"h8rjq9mr"}
+{"time":"2025-05-03T00:05:08.088057317Z","level":"INFO","msg":"writer: Do: started","stream_id":"h8rjq9mr"}
+{"time":"2025-05-03T00:05:08.088088617Z","level":"INFO","msg":"sender: started","stream_id":"h8rjq9mr"}
+{"time":"2025-05-03T00:05:08.088142187Z","level":"INFO","msg":"handler: started","stream_id":"h8rjq9mr"}
+{"time":"2025-05-03T00:05:08.22801989Z","level":"INFO","msg":"Starting system monitor"}
+{"time":"2025-05-03T00:06:53.432090294Z","level":"ERROR","msg":"HTTP error","status":404,"method":"POST","url":"https://api.wandb.ai/files/sliaw-california-institute-of-technology-caltech/MCMC_cb/h8rjq9mr/file_stream"}
+{"time":"2025-05-03T00:06:53.432177204Z","level":"ERROR+4","msg":"filestream: fatal error: filestream: failed to upload: 404 Not Found path=files/sliaw-california-institute-of-technology-caltech/MCMC_cb/h8rjq9mr/file_stream: {\"error\":\"run MCMC_cb/h8rjq9mr not found while streaming file\"}"}
