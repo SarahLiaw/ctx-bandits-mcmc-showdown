@@ -99,9 +99,4 @@ To add a new agent:
 
 If you use this code in your research, please consider citing our paper:
 
-@article{,
-  author = {Emile Anand, Sarah Liaw},
-  title = {Feel-Good Thompson Sampling for Contextual Bandits: a Markov Chain Monte Carlo Showdown},
-  journal = {arXiv preprint arXiv:2506.04666},
-  year = {2025}
-}
+@TODO: add bibtex
