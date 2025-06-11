@@ -1,0 +1,12 @@
+{
+    "base_config": "base.json",
+    "agent": "PFGLMCTS",
+    "std_prior": 1.0,
+    "eta": 1.0,
+    "step_size": 0.1,
+    "lambda": 0.01,
+    "b": 1000,
+    "lambda_reg": 1.0,
+    "K": 25,
+    "K_not_updated": 1
+}

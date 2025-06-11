@@ -1,0 +1,12 @@
+{
+    "base_config": "base.json",
+    "agent": "ULMCFGTS",
+    "std_prior": 1.0,
+    "eta": 1.0,
+    "gamma": 0.1,
+    "h": 0.01,
+    "lambda": 0.01,
+    "b": 1000,
+    "K": 25,
+    "K_not_updated": 1
+}

@@ -104,10 +104,12 @@ for cfg in configs:
         env["PYTHONHASHSEED"]   = str(seed)
         env["LINEAR_OUT_DIR"]   = str(OUT_DIR)
 
-        subprocess.run(
-            ["python", str(RUN_PY), "--config_path", str(CFG_DIR / cfg["_file"])],
-            check=True, env=env
-        )
+        cmd = [
+            '/usr/local/bin/python3', str(RUN_PY),
+            f'--config_path={str(CFG_DIR / cfg["_file"])}'
+        ]
+        print(f"Running: {' '.join(cmd)}")
+        subprocess.run(cmd, check=True, env=env)
 
         # ---- collect results ----
         rpt = algo_out / f"seed{seed}" / f"{TENSOR_KEY}.pt"

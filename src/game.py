@@ -22,17 +22,71 @@ class GameToy(object):
             self.env = LinearEnv(info)
         elif self.info['task_type'] == 'logistic':
             self.env = LogisticEnv(info)
+        elif self.info['task_type'] == 'wheel':
+            # For wheel bandit, we'll implement the environment methods directly in this class
+            self.context_size = info['context_size']
+            self.nb_arms = info['nb_arms']
+            self.d = info['d']
+            self.delta = info.get('delta', 0.99)
+            self.mean_v = torch.tensor(info.get('mean_v', [0.1] * (self.nb_arms-1) + [0.15]))
+            self.std_v = torch.tensor(info.get('std_v', [0.01] * self.nb_arms))
+            self.mu_large = info.get('mu_large', 1.0)
+            self.std_large = info.get('std_large', 0.01)
+            # Generate the optimal arm for each context
+            self.theta_star = torch.randn(self.d, 1)
         else:
-            raise NotImplementedError
+            raise ValueError(f"Unsupported task_type: {info['task_type']}")
+            
         self.agent = self.info['agent'](info)
-        self.arm_idx = torch.arange(self.info['d'])
+        self.arm_idx = torch.arange(self.info['nb_arms'] if 'nb_arms' in info else info['d'])
 
+    def context(self):
+        """Generate a random context for the wheel bandit problem."""
+        if self.info['task_type'] == 'wheel':
+            # For wheel bandit, generate a random context vector
+            return torch.randn(1, self.context_size)
+        else:
+            return self.env.context()
+            
+    def reward(self, feature, action):
+        """Generate reward for the given action."""
+        if self.info['task_type'] == 'wheel':
+            # Implement wheel bandit reward function
+            if isinstance(action, torch.Tensor):
+                action = action.item()
+                
+            # Get the mean reward for this action
+            mu = self.mean_v[action] if action < self.nb_arms - 1 else self.mu_large
+            std = self.std_v[action] if action < self.nb_arms - 1 else self.std_large
+            
+            # Add noise to the reward
+            return mu + torch.randn(1).item() * std
+        else:
+            return self.env.reward(feature, action)
+    
+    def get_reward_star(self, feature):
+        """Get the optimal reward for the given context."""
+        if self.info['task_type'] == 'wheel':
+            # For wheel bandit, the optimal action is always the last one
+            return self.mu_large
+        else:
+            return self.env.get_reward_star(feature)
+            
+    def get_mean_reward(self, feature, action):
+        """Get the mean reward for the given action."""
+        if self.info['task_type'] == 'wheel':
+            if isinstance(action, torch.Tensor):
+                action = action.item()
+            return self.mean_v[action] if action < self.nb_arms - 1 else self.mu_large
+        else:
+            return self.env.get_mean_reward(feature, action)
+    
     def play(self, t, cum_regret):
-        feature = self.env.context()
+        feature = self.context()
         action = self.agent.choose_arm(feature, self.arm_idx)
-        reward = self.env.reward(feature, action)
-        mean_best_reward = self.env.get_reward_star(feature)
-        mean_reward = self.env.get_mean_reward(feature, action)
+        reward = self.reward(feature, action)
+        mean_best_reward = self.get_reward_star(feature)
+        mean_reward = self.get_mean_reward(feature, action)
         if t > 0:
             cum_regret[t] = cum_regret[t-1] + mean_best_reward - mean_reward
         else:

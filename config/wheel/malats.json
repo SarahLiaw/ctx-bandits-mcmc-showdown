@@ -1,0 +1,10 @@
+{
+    "base_config": "base.json",
+    "agent": "MALATS",
+    "std_prior": 1.0,
+    "eta": 1.0,
+    "step_size": 0.1,
+    "K": 25,
+    "K_not_updated": 1,
+    "accept_reject_step": 10
+}

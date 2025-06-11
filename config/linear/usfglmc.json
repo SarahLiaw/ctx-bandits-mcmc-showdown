@@ -1,0 +1,22 @@
+{
+    "std_reward": 0.5,
+    "T": 5000,
+    "task_type": "linear",
+    "N": 1,
+    "std_prior": 0.01,
+    "eta": 0.1,
+    "lambda": 0.01,
+    "b": 1.0,
+    "smooth_s": 10.0,
+    "step_size": 0.01,
+    "K": 25,
+    "K_not_updated": 1,
+    "gamma": 0.1,
+    "h": 0.01,
+    "nb_arms": 5,
+    "d": 20,
+    "context_size": 4,
+    "exp_name": "results/toy/ulmcsfgts/",
+    "agent": "ULMCSFGTS",
+    "project_name": "Lin_ULMCSFGTS"
+}

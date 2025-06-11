@@ -1,0 +1,10 @@
+{
+    "base_config": "base.json",
+    "agent": "PLMCTS",
+    "std_prior": 1.0,
+    "eta": 1.0,
+    "step_size": 0.1,
+    "lambda_reg": 1.0,
+    "K": 25,
+    "K_not_updated": 1
+}

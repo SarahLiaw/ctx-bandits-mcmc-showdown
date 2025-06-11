@@ -1,0 +1,85 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual Environment
+venv/
+env/
+ENV/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Data files
+*.csv
+*.h5
+*.hdf5
+*.pkl
+*.pth
+*.pt
+*.npy
+*.npz
+data/
+results/
+linear_results_*/
+
+# Logs and databases
+*.log
+*.sql
+*.sqlite
+
+# Weights & Biases
+wandb/
+
+# Results and outputs
+*.out
+*.err
+results/
+linear_results/
+linear_results_*/
+wheel_results/
+
+# W&B
+wandb/
+
+# Environment files
+.env
+.venv
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db

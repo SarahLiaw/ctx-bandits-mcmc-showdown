@@ -803,6 +803,278 @@ class PSFGHMCTS(PFGHMCTS):
         return base
 
 
+class ULMCTS(object):
+    '''
+    Underdamped Langevin Monte Carlo Thompson Sampling bandit
+    - info['gamma']: Friction coefficient (damping)
+    - info['h']: Step size
+    - info['K']: Number of leapfrog steps
+    - info['eta']: inverse of temperature, controls the variance of the posterior distribution
+    - info['std_prior']: standard deviation of the gaussian prior distribution
+    - info['phi']: function (context x number of arms) -> all feature vectors
+    - info['phi_a']: function (context x arm x number of arms) -> feature vector of the corresponding arm
+    '''
+    def __init__(self, info):
+        self.info = info
+        self.v = torch.tensor([])  # Feature vectors of played arms
+        self.r = torch.tensor([])  # Rewards
+        self.V = torch.empty(0, 1, self.info['d'])  # History of feature matrices
+        self.is_posterior_updated = True
+        self.idx = 1
+        self.gamma = info.get('gamma', 0.1)  # Friction coefficient
+        self.h = info.get('h', 0.01)  # Step size
+        self.theta_momentum = None
+        self.theta = torch.randn((self.info['d'], 1))  # Initialize parameters
+        self.K = info.get('K', 25)  # Number of MCMC steps
+        self.K_not_updated = info.get('K_not_updated', 1)  # Steps when not updated
+
+    def choose_arm(self, features, arm_idx):
+        '''
+        Choose an arm based on current posterior samples
+        - features: context
+        - arm_idx: index of the arm to choose
+        '''
+        theta = self.sample_posterior(arm_idx)
+        return (features @ theta).argmax().item()
+
+    def update(self, action, reward, features, arm_idx):
+        '''
+        Update the model with new observation
+        - action: chosen arm (index of the chosen arm)
+        - reward: observed reward
+        - features: context tensor of shape (num_arms, feature_dim)
+        - arm_idx: index of the chosen arm (redundant with action, but kept for compatibility)
+        '''
+        # Ensure features is at least 2D
+        if features.dim() == 1:
+            features = features.unsqueeze(0)  # Add batch dimension if needed
+            
+        # Get the feature vector for the chosen arm
+        if isinstance(action, torch.Tensor):
+            action = action.item()
+            
+        # Ensure we have a valid action index
+        if action < 0 or action >= features.size(0):
+            raise ValueError(f"Invalid action index: {action} for features with shape {features.shape}")
+            
+        # Get the feature vector for the chosen arm and ensure it's 2D (1, feature_dim)
+        chosen_feature = features[action].unsqueeze(0)
+        
+        # Store the feature vector and reward
+        if self.v.numel() == 0:  # First update
+            self.v = chosen_feature
+        else:
+            self.v = torch.cat([self.v, chosen_feature], dim=0)
+            
+        # Store the reward
+        reward_tensor = torch.tensor([[reward]], dtype=torch.float32)
+        if self.r.numel() == 0:  # First update
+            self.r = reward_tensor
+        else:
+            self.r = torch.cat([self.r, reward_tensor], dim=0)
+        
+        # Store the full context for all arms (add batch dimension if needed)
+        if features.dim() == 2:
+            features = features.unsqueeze(0)  # Add batch dimension
+            
+        if self.V.numel() == 0:  # First update
+            self.V = features
+        else:
+            self.V = torch.cat([self.V, features], dim=0)
+            
+        self.idx += 1
+        self.is_posterior_updated = True
+
+    def sample_posterior(self, arm_idx):
+        '''Sample from the posterior using underdamped Langevin dynamics'''
+        if not self.is_posterior_updated:
+            return self.theta.detach()
+
+        # Number of steps to run the MCMC
+        num_steps = self.K if self.is_posterior_updated else self.K_not_updated
+        
+        # Initialize momentum if needed
+        if self.theta_momentum is None:
+            self.theta_momentum = torch.randn_like(self.theta)
+        
+        # Run underdamped Langevin dynamics
+        for _ in range(num_steps):
+            # Half step for momentum
+            grad_U = self.grad_U(self.theta)
+            self.theta_momentum = self.theta_momentum - 0.5 * self.h * grad_U
+            
+            # Full step for position
+            self.theta = self.theta + 0.5 * self.h * self.theta_momentum
+            
+            # Update momentum with friction
+            noise = torch.randn_like(self.theta_momentum)
+            self.theta_momentum = (1 - self.gamma * self.h) * self.theta_momentum \
+                                - self.h * self.grad_U(self.theta) \
+                                + np.sqrt(2 * self.h) * noise
+            
+            # Final half step for position
+            self.theta = self.theta + 0.5 * self.h * self.theta_momentum
+        
+        self.is_posterior_updated = False
+        return self.theta.detach()
+
+    def grad_U(self, theta):
+        '''Compute the gradient of the potential energy function U(theta)
+        
+        U(theta) = -log p(theta|D) = -log p(D|theta) - log p(theta)
+        where:
+        - p(D|theta) is the likelihood
+        - p(theta) is the prior (Gaussian)
+        '''
+        # Compute the gradient of the negative log-likelihood
+        if len(self.r) == 0:  # If no data, just return the prior
+            return theta / (self.info['std_prior'] ** 2)
+            
+        # Reshape theta if needed
+        theta_flat = theta.view(-1, 1)
+        
+        # Compute the gradient of the negative log-likelihood
+        # For Gaussian likelihood: -log p(D|theta) = 1/(2*sigma^2) * sum((r - phi^T theta)^2)
+        # So grad = -1/sigma^2 * sum((r - phi^T theta) * phi)
+        # For simplicity, we'll assume sigma = 1 here
+        pred = self.v @ theta_flat
+        error = pred - self.r
+        grad_likelihood = (self.v.t() @ error) / len(self.r)
+        
+        # Add the gradient of the negative log-prior (Gaussian prior)
+        grad_prior = theta_flat / (self.info['std_prior'] ** 2)
+        
+        # Total gradient (scaled by eta)
+        grad = self.info.get('eta', 1.0) * grad_likelihood + grad_prior
+        
+        return grad
+
+    def loss_fct(self, theta):
+        '''Compute the potential energy function U(theta) = -log p(theta|D)'''
+        if len(self.r) == 0:  # If no data, just return the prior
+            return 0.5 * (theta ** 2).sum() / (self.info['std_prior'] ** 2)
+            
+        # Reshape theta if needed
+        theta_flat = theta.view(-1, 1)
+        
+        # Compute negative log-likelihood (Gaussian)
+        pred = self.v @ theta_flat
+        nll = 0.5 * ((pred - self.r) ** 2).sum() / len(self.r)
+        
+        # Add negative log-prior (Gaussian)
+        nlp = 0.5 * (theta_flat ** 2).sum() / (self.info['std_prior'] ** 2)
+        
+        # Total potential energy (scaled by eta)
+        return self.info.get('eta', 1.0) * nll + nlp
+
+
+class ULMCFGTS(ULMCTS):
+    '''
+    Feel-Good Underdamped Langevin Monte Carlo Thompson Sampling bandit
+    - info['lambda']: Feed good exploration term
+    - info['eta']: inverse of temperature, controls the variance of the posterior distribution
+    - info['std_prior']: standard deviation of the gaussian prior distribution
+    - info['b']: bound for the feel good term (cf definition of the fg term)
+    '''
+    def __init__(self, info):
+        super(ULMCFGTS, self).__init__(info)
+        # Store b as a regular tensor
+        self.b_tensor = torch.tensor([info['b']])
+    
+    # Compute max_a (V @ theta) for each context in history
+    def get_g_star(self):
+        if not hasattr(self, 'V') or self.V.shape[0] == 0:
+            return 0.0
+        
+        # Compute V @ theta for all arms in all contexts
+        all_arm_values = (self.V @ self.theta).squeeze(-1)  # [T, A]
+        # Get max value for each context
+        g_star = all_arm_values.max(dim=1)[0]  # [T]
+        return g_star
+    
+    def loss_fct(self, theta):
+        # Standard linear regression loss
+        pred = self.v @ theta
+        mse_loss = 0.5 * ((pred - self.r) ** 2).mean()
+        
+        # Prior regularization
+        prior_loss = 0.5 * (theta ** 2).sum() / (self.info['std_prior'] ** 2)
+        
+        # Feel-good exploration term
+        if hasattr(self, 'V') and self.V.shape[0] > 0:
+            # Compute max_a (V @ theta) for each context in history
+            all_arm_values = (self.V @ theta).squeeze(-1)  # [T, A]
+            max_values = all_arm_values.max(dim=1)[0]  # [T]
+            
+            # Clip the max values at b
+            clipped_max = torch.min(max_values, self.b_tensor.to(theta.device))
+            fg_term = -self.info['lambda'] * clipped_max.sum()
+        else:
+            fg_term = 0.0
+        
+        # Total loss
+        total_loss = self.info['eta'] * (mse_loss + prior_loss) + fg_term
+        return total_loss
+
+
+class ULMCSFGTS(ULMCTS):
+    '''
+    Smoothed Feel-Good Underdamped Langevin Monte Carlo Thompson Sampling bandit
+    - info['lambda']: Feel-good exploration term
+    - info['eta']: inverse of temperature, controls the variance of the posterior distribution
+    - info['std_prior']: standard deviation of the gaussian prior distribution
+    - info['b']: bound for the feel good term
+    - info['smooth_s']: smoothing scale parameter (default: 10.0)
+    '''
+    def __init__(self, info):
+        info.setdefault("smooth_s", 10.0)  # Default smoothing parameter
+        super(ULMCSFGTS, self).__init__(info)
+        # Store b as a regular tensor
+        self.b_tensor = torch.tensor([info['b']])
+    
+    def phi_s(self, u):
+        """Smooth plus function: log(1 + e^(s*u)) / s"""
+        s = self.info['smooth_s']
+        return F.softplus(s * u) / s
+    
+    # Compute max_a (V @ theta) for each context in history
+    def get_g_star(self, theta=None):
+        if not hasattr(self, 'V') or self.V.shape[0] == 0:
+            return 0.0
+        
+        if theta is None:
+            theta = self.theta
+            
+        # Compute V @ theta for all arms in all contexts
+        all_arm_values = (self.V @ theta).squeeze(-1)  # [T, A]
+        # Get max value for each context
+        g_star = all_arm_values.max(dim=1)[0]  # [T]
+        return g_star
+    
+    def loss_fct(self, theta):
+        # Standard linear regression loss
+        pred = self.v @ theta
+        mse_loss = 0.5 * ((pred - self.r) ** 2).mean()
+        
+        # Prior regularization
+        prior_loss = 0.5 * (theta ** 2).sum() / (self.info['std_prior'] ** 2)
+        
+        # Smoothed Feel-good exploration term
+        if hasattr(self, 'V') and self.V.shape[0] > 0:
+            g_star = self.get_g_star(theta)
+            b = self.b_tensor.to(theta.device)
+            
+            # Apply smoothed min(b, g*)
+            fg_term = b - self.phi_s(b - g_star)
+            fg_term = -self.info['lambda'] * fg_term.sum()
+        else:
+            fg_term = 0.0
+        
+        # Total loss
+        total_loss = self.info['eta'] * (mse_loss + prior_loss) + fg_term
+        return total_loss
+
+
 class SVRGLMCTS(LMCTS):
     """
     Langevin TS with Stochastic Variance-Reduced Gradient (SVRG).

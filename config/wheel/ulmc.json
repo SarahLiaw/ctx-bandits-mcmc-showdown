@@ -1,0 +1,10 @@
+{
+    "base_config": "base.json",
+    "agent": "ULMCTS",
+    "std_prior": 1.0,
+    "eta": 1.0,
+    "gamma": 0.1,
+    "h": 0.01,
+    "K": 25,
+    "K_not_updated": 1
+}

@@ -70,12 +70,48 @@ def format_agent(info):
     elif info['agent'] == 'SVRGMALATS':
         from src.MCMC import SVRGMALATS
         return SVRGMALATS
+    elif info['agent'] == 'ULMCTS':
+        from src.MCMC import ULMCTS
+        return ULMCTS
+    elif info['agent'] == 'FGULMCTS':
+        from src.MCMC import FGULMCTS
+        return FGULMCTS
+    elif info['agent'] == 'SFGULMCTS':
+        from src.MCMC import SFGULMCTS
+        return SFGULMCTS
+    elif info['agent'] == 'PHMCTS':
+        from src.MCMC import PHMCTS
+        return PHMCTS
+    elif info['agent'] == 'PFGHMCTS':
+        from src.MCMC import PFGHMCTS
+        return PFGHMCTS
+    elif info['agent'] == 'PSFGHMCTS':
+        from src.MCMC import PSFGHMCTS
+        return PSFGHMCTS
+    elif info['agent'] == 'SVRGLMCTS':
+        from src.MCMC import SVRGLMCTS
+        return SVRGLMCTS
+    elif info['agent'] == 'SVRGMALATS':
+        from src.MCMC import SVRGMALATS
+        return SVRGMALATS
     else:
         raise ValueError(info['agent'])
 
 def load_config_file(config_path):
-    f = open(config_path)
-    info = json.load(f)
+    # Load the main config file
+    with open(config_path) as f:
+        info = json.load(f)
+    
+    # If there's a base config, load and update with the main config
+    if 'base_config' in info:
+        base_dir = os.path.dirname(config_path)
+        base_path = os.path.join(base_dir, info['base_config'])
+        with open(base_path) as f:
+            base_info = json.load(f)
+        # Update base config with agent-specific config (overriding any duplicates)
+        base_info.update(info)
+        info = base_info
+    
     info['agent'] = format_agent(info)
     if info['task_type'] == 'yahoo':
         info['phi'] = lambda x, y: x
@@ -89,8 +125,15 @@ def load_config_file(config_path):
         info['phi'] = lambda x, y: x
         info['phi_a'] = lambda x, a, nb_arms: x[a, :]
         info['game'] = GameToy
+    elif info['task_type'] == 'wheel':
+        # For wheel task, use the phi and phi_a from the config
+        if 'phi' in info and isinstance(info['phi'], str):
+            info['phi'] = eval(info['phi'])
+        if 'phi_a' in info and isinstance(info['phi_a'], str):
+            info['phi_a'] = eval(info['phi_a'])
+        info['game'] = GameToy
     else:
-        raise ValueError(info['task_type'])
+        raise ValueError(f"Unknown task_type: {info['task_type']}")
     return info
 
 def run(config_path):
