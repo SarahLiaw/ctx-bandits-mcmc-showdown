@@ -12,11 +12,6 @@ class LinearEnv(object):
     - info['nb_arms']: number of arms
     - info['std_reward']: standard deviation of the reward distribution
     '''
-    # def __init__(self, info):
-    #     self.info = info
-    #     self.theta_s = self.load_true_parameter()
-    #     self.context_iterator = self.load_true_contextual_iterator()
-    #     self.idx = 0
 
     def __init__(self, info):
         self.info = info
