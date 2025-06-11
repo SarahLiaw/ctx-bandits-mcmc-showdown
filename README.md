@@ -1,4 +1,4 @@
-# MCMC Bandit Algorithms
+# Feel-Good Thompson Sampling for Contextual Bandits: a Markov Chain Monte Carlo Showdown
 
 This repository implements various MCMC-based contextual bandit algorithms.
 
