@@ -1,7 +1,7 @@
 import argparse
 from src.MCMC import  MALATS, FGMALATS, FGLMCTS, LMCTS
 from src.baseline import LinTS, LinUCB, Random
-from src.game import GameToy, GameYahoo
+from src.game import GameToy
 import torch
 from tqdm import tqdm
 import pickle as pkl
@@ -113,11 +113,7 @@ def load_config_file(config_path):
         info = base_info
     
     info['agent'] = format_agent(info)
-    if info['task_type'] == 'yahoo':
-        info['phi'] = lambda x, y: x
-        info['phi_a'] = lambda x, y, z: x[y, :]
-        info['game'] = GameYahoo
-    elif info['task_type'] == 'linear':
+    if info['task_type'] == 'linear':
         info['phi'] = lambda x, nb_arms: torch.block_diag(*[x]*nb_arms)
         info['phi_a'] = lambda x, a, nb_arms: torch.block_diag(*[x]*nb_arms)[a, :]
         info['game'] = GameToy

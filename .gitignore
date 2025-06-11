@@ -47,7 +47,13 @@ ENV/
 *.npz
 data/
 results/
-linear_results_*/
+*_results_*/
+wandb/
+*.wandb
+
+# Logs
+*.log
+logs/
 
 # Logs and databases
 *.log

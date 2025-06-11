@@ -107,36 +107,3 @@ class GameToy(object):
         result_dir.mkdir(parents=True, exist_ok=True)
         torch.save(cum_regret.cpu(), result_dir / "cum_regret.pt")
         return cum_regret
-
-class GameYahoo(object):
-    def __init__(self, info):
-        self.info = info
-        self.dataset = Dataset()
-        files = ('dataset/R6/ydata-fp-td-clicks-v1_0.20090503')
-        self.dataset.get_yahoo_events(files, 3000000)
-        np.random.shuffle(self.dataset.events)
-        self.dataset.events = self.dataset.events[: info['yahoo_size']]
-        self.agent = self.info['agent'](info)
-
-    def run(self):
-        G_learn = 0  
-        T_learn = 0
-        learn = []
-        for _, event in enumerate(tqdm(self.dataset.events)):
-            displayed = event[0]
-            reward = event[1]
-            user_feature = torch.tensor(event[2])
-            pool_idx = torch.tensor(event[3])
-            article_feature = torch.tensor(self.dataset.features[pool_idx])
-            features = torch.cat((user_feature.repeat((len(pool_idx), 1)), article_feature), dim=1).float()
-            chosen = self.agent.choose_arm(features, pool_idx)
-            if chosen == displayed:
-                G_learn += event[1]
-                T_learn += 1
-                self.agent.update(displayed, reward, features, pool_idx)
-                wandb.log({'ctr': G_learn / T_learn})
-                learn.append(G_learn / T_learn)
-        return learn
-            
-            
-            
