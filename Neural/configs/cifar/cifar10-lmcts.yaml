@@ -1,0 +1,20 @@
+data_name: CIFAR10
+version: 1
+num_data: 10000
+
+# bandit
+num_arm: 10
+dim_context: 3072  # 3 channels x 32 x 32
+T: 10000
+
+# train
+algo: LMCTS
+model: neural
+act: LeakyReLU
+layers: [100, 100, 100]
+num_iter: 70
+beta_inv: 0.0001
+lr: 0.001
+
+# log
+project: ContextualBandit-CIFAR10

@@ -1,0 +1,20 @@
+data_name: jester
+version: 1
+num_data: 10000  # Adjust based on dataset size
+
+# bandit
+num_arm: 100     # Number of jokes in Jester dataset
+dim_context: 32  # Feature dimension for jokes
+T: 10000         # Number of rounds
+
+# train
+algo: LMCTS
+model: neural
+act: LeakyReLU
+layers: [100, 50, 25]  # Enhanced architecture: wider first layer, narrowing down
+num_iter: 100  # More update iterations per step
+beta_inv: 0.001  # 10x higher to increase exploration
+lr: 0.01
+
+# log
+project: ContextualBandit-Jester

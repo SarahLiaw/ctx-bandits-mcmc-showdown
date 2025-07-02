@@ -1,0 +1,21 @@
+data_name: MagicTelescope
+version: 1
+num_data: 19000
+
+# bandit
+num_arm: 2
+dim_context: 10
+T: 10000
+
+# train
+algo: NeuralEpsGreedy
+model: neural
+act: ReLU
+layers: [100]
+num_iter: 100
+eps: 0.05
+lr: 0.1
+
+# log
+project: ContextualBandit-Neurips
+group: Magic-NeuralEpsGreedy

@@ -1,0 +1,29 @@
+data_name: mushroom
+version: 1
+num_data: 8000
+
+# bandit
+num_arm: 2
+dim_context: 22
+T: 10000
+
+# train
+algo: LMCTS
+model: neural
+act: LeakyReLU
+layers: [100]
+reduce: 2
+loss: L2
+num_iter: 100
+beta_inv: 0.000001
+lr: 0.01
+
+
+feel_good: true
+fg_mode: hard
+lambda_fg: 0.05
+b_fg: 10
+
+# log
+project: ContextualBandit-Neurips
+group: Mushroom-LMCTS

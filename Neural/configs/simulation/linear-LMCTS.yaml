@@ -1,0 +1,18 @@
+datapath: data/gaussian50-20-1-1.pt
+# bandit
+num_arm: 50
+dim_context: 20
+T: 10000
+sigma: 0.5
+func: linear
+
+# train
+algo: LMCTS
+model: linear
+num_iter: 100
+beta_inv: 0.0000001
+lr: 0.1
+
+# log
+project: ContextualBandit-Neurips
+group: Linear-LMCTS

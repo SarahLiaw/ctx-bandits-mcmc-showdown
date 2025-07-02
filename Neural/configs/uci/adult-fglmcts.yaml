@@ -1,0 +1,34 @@
+# data
+data_name: adult
+version: 2
+num_data: 20000
+
+# bandit
+num_arm: 2
+dim_context: 14
+T: 10000
+
+# algorithm
+algo: FGLMCTS              # <- new agent
+model: neural
+act: LeakyReLU
+layers: [100]
+
+# FG parameters
+feel_good: true            # turn it on
+fg_mode: hard              # "hard" or "smooth"
+lambda_fg: 0.1
+b_fg: 10
+
+# optimisation
+batchsize: 256
+reduce: 2
+decay_step: 1000
+loss: L2
+num_iter: 100
+beta_inv: 0.00001
+lr: 0.005
+
+# wandb
+project: ContextualBandit-Neurips
+group: Adult-FGLMCTS

@@ -1,0 +1,25 @@
+#  configs/uci/mushroom-precond-lmcts.yaml
+#  --------------------------------------
+
+data_name: mushroom
+version: 1
+num_data: 8000                    # use any subset length you like
+
+# ─── contextual-bandit setting ───────────────────────────────────────────
+num_arm: 2
+dim_context: 22                   # 22 categorical features in Mushroom
+T: 10000
+
+# ─── training hyper-parameters ───────────────────────────────────────────
+algo: PrecondLMCTS               # ← NEW agent
+model: linear                    # PrecondLMCTS assumes a single-layer weight θ
+loss: L2
+lr: 0.01
+beta_inv: 0.000001               # 1/β   (same scale you used before)
+lambda_reg: 1.0                  # λ in  V_t = λI + Σ x_s x_sᵀ
+num_iter: 1                      # one Langevin update per round is enough
+reduce: 2                        # update every other step (optional)
+
+# ─── logging (wandb) ─────────────────────────────────────────────────────
+project: ContextualBandit-Neurips
+group: Mushroom-PrecondLMCTS

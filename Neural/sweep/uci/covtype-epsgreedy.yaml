@@ -1,0 +1,40 @@
+program: run_classifier.py
+method: grid
+metric:
+  goal: minimize
+  name: Regret
+parameters:
+  data_name:
+    value: covertype
+  version:
+    value: 3
+  num_data:
+    value: 15000
+  num_arm: 
+    value: 7
+  dim_context: 
+    value: 54
+  T:
+    value: 10000
+  algo:
+    value: NeuralEpsGreedy
+  model:
+    value: neural
+  layers:
+    value: [100]
+  act:
+    value: 'ReLU'
+  eps:
+    values: [0.1, 0.01, 0.2, 0.002, 0.4]
+  lr:
+    values: [0.1, 0.01, 0.001]
+  num_iter:
+    value: 100
+command: 
+  - ${env}
+  - python3
+  - ${program}
+
+name: NeuralEpsGreedy-covtype
+project: ContextualBandit-UCI
+entity: hzzheng

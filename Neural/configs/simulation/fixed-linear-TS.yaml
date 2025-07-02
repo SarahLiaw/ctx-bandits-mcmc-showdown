@@ -1,0 +1,20 @@
+datapath: data/gaussian50-20-1-1.pt
+# bandit
+num_arm: 50
+dim_context: 20
+T: 10000
+index: 0
+num_data: 1
+func: linear
+sigma: 0.5
+
+# train
+algo: LinTS
+model: linear
+
+num_iter: 1
+nu: 0.05
+
+# log
+project: ContextualBandit-Neurips
+group: Fixed-Linear-LinTS

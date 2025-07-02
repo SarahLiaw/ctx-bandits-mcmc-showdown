@@ -48,6 +48,29 @@ ENV/
 data/
 results/
 *_results_*/
+
+# Logs and experiment tracking
+wandb/
+*.log
+*.log.*
+.wandb
+logs/
+tensorboard/
+runs/
+checkpoints/
+
+# Temporary files
+.DS_Store
+*.bak
+*.tmp
+*.temp
+*.swp
+.~*
+
+# Cache
+__pycache__/
+.pytest_cache/
+.coverage
 wandb/
 *.wandb
 

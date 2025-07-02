@@ -1,0 +1,21 @@
+datapath: data/gaussian50-20-1-1.pt
+
+# bandit
+num_arm: 50
+dim_context: 20
+T: 10000
+sigma: 1.0
+func: quad
+
+# train
+algo: LMCTS
+model: neural
+layers: [20, 20, 20]
+act: LeakyReLU
+num_iter: 50
+beta_inv: 0.01
+lr: 0.001
+
+# log
+project: ContextualBandit-Neurips
+group: Quad-LMCTS

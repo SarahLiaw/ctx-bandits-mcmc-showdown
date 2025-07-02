@@ -1,0 +1,20 @@
+data_name: shuttle
+version: 1
+
+# bandit
+num_arm: 7
+dim_context: 9
+T: 10000
+
+# train
+algo: NeuralEpsGreedy
+model: neural
+act: ReLU
+layers: [50, 50, 50]
+num_iter: 100
+eps: 0.01
+lr: 0.1
+
+# log
+project: ContextualBandit-Neurips
+group: Shuttle-NeuralEpsGreedy

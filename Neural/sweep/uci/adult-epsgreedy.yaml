@@ -1,0 +1,40 @@
+program: run_classifier.py
+method: grid
+metric:
+  goal: minimize
+  name: Regret
+parameters:
+  data_name:
+    value: adult
+  version:
+    value: 2
+  num_data:
+    value: 20000
+  num_arm: 
+    value: 2
+  dim_context: 
+    value: 14
+  T:
+    value: 10000
+  algo:
+    value: NeuralEpsGreedy
+  model:
+    value: neural
+  layers:
+    value: [50, 50]
+  act:
+    values: ['ReLU', 'LeakyReLU']
+  eps:
+    values: [0.1, 0.01, 0.2, 0.002, 0.4]
+  lr:
+    values: [0.1, 0.01, 0.001]
+  num_iter:
+    value: 100
+command: 
+  - ${env}
+  - python3
+  - ${program}
+
+name: Adult-NeuralEpsGreedy
+project: ContextualBandit-UCI
+entity: hzzheng

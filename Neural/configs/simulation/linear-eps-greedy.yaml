@@ -1,0 +1,18 @@
+datapath: data/gaussian50-20-1-1.pt
+# bandit
+num_arm: 50
+dim_context: 20
+T: 10000
+sigma: 0.5
+func: linear
+
+# train
+algo: NeuralEpsGreedy
+model: linear
+num_iter: 50
+lr: 0.01
+eps: 0.01
+
+# log
+project: ContextualBandit-Neurips
+group: Linear-LinearEpsGreedy

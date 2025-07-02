@@ -1,0 +1,23 @@
+data_name: adult
+version: 2
+num_data: 20000
+
+# bandit
+num_arm: 2
+dim_context: 14
+T: 10000
+
+# train
+algo: NeuralTS
+model: neural
+act: ReLU
+layers: [100]
+loss: L2
+num_iter: 100
+reg: 0.01
+nu: 0.000001
+lr: 0.01
+
+# log
+project: ContextualBandit-Neurips
+group: Adult-NeuralTS
