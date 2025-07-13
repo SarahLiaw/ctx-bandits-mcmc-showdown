@@ -1,0 +1,29 @@
+data_name: MagicTelescope
+version: 1
+num_data: 19000
+
+# bandit
+num_arm: 2
+dim_context: 10
+T: 10000
+
+# train
+algo: FGNeuralTS
+model: neural
+act: ReLU
+layers: [100]
+num_iter: 100
+lr: 0.01
+reg: 0.00001
+nu: 0.00001
+
+# Feel-Good specific parameters
+feel_good: true
+fg_mode: "hard"
+lambda_fg: 1.0
+b_fg: 1.0
+smooth_s: 10.0
+
+# log
+project: ContextualBandit-Neurips
+group: Magic-FGNeuralTS 

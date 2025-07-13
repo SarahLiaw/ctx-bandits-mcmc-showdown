@@ -11,7 +11,7 @@ try:
         LMCTS, LinTS, LinUCB,
         EpsGreedy, NeuralTS, NeuralUCB, NeuralEpsGreedy,
         UCBGLM, GLMTSL, NeuralLinUCB, MALATS,
-        FGLMCTS,
+        FGLMCTS, FGNeuralTS,
         # Commented out modules that don't exist or have issues
         # FGMALATS, SFGMALATS, PrecondLMCTS,
     )
@@ -31,7 +31,7 @@ except ModuleNotFoundError as err:
     _missing_names = [
         'LMCTS', 'LinTS', 'LinUCB', 'EpsGreedy', 'NeuralTS', 'NeuralUCB',
         'NeuralEpsGreedy', 'UCBGLM', 'GLMTSL', 'NeuralLinUCB', 'MALATS',
-        'FGLMCTS', 'FGMALATS', 'SFGMALATS', 'PrecondLMCTS',
+        'FGLMCTS', 'FGNeuralTS', 'FGMALATS', 'SFGMALATS', 'PrecondLMCTS',
     ]
     current_module = globals()
     for _name in _missing_names:
@@ -300,6 +300,26 @@ def construct_agent_cls(config, device):
                          batch_size=batchsize,
                          reduce=reduce,
                          device=device)
+    elif algo_name == 'FGNeuralTS':
+        optimizer = SGD(model.parameters(), lr=config['lr'], weight_decay=config['reg'])
+        # Define loss function
+        if 'loss' not in config:
+            criterion = construct_loss('L2', reduction='mean')
+        else:
+            criterion = construct_loss(config['loss'], reduction='mean')
+        collector = Collector()
+        agent = FGNeuralTS(num_arm, dim_context * num_arm,
+                           model, optimizer,
+                           criterion, collector,
+                           config['nu'], reg=config['reg'],
+                           batch_size=batchsize,
+                           reduce=reduce,
+                           feel_good=config.get('feel_good', True),
+                           fg_mode=config.get('fg_mode', 'hard'),
+                           lambda_fg=config.get('lambda_fg', 1.0),
+                           b_fg=config.get('b_fg', 1.0),
+                           smooth_s=config.get('smooth_s', 10.0),
+                           device=device)
     elif algo_name == 'NeuralUCB':
         optimizer = SGD(model.parameters(), lr=config['lr'], weight_decay=config['reg'])
         # Define loss function
@@ -433,6 +453,24 @@ def construct_agent_sim(config, device):
                          criterion, collector,
                          config['nu'], reg=config['reg'],
                          device=device)
+    elif algo_name == 'FGNeuralTS':
+        optimizer = SGD(model.parameters(), lr=config['lr'], weight_decay=config['reg'])
+        # Define loss function
+        if 'loss' not in config:
+            criterion = construct_loss('L2', reduction='mean')
+        else:
+            criterion = construct_loss(config['loss'], reduction='mean')
+        collector = Collector()
+        agent = FGNeuralTS(num_arm, dim_context,
+                           model, optimizer,
+                           criterion, collector,
+                           config['nu'], reg=config['reg'],
+                           feel_good=config.get('feel_good', True),
+                           fg_mode=config.get('fg_mode', 'hard'),
+                           lambda_fg=config.get('lambda_fg', 1.0),
+                           b_fg=config.get('b_fg', 1.0),
+                           smooth_s=config.get('smooth_s', 10.0),
+                           device=device)
     elif algo_name == 'NeuralUCB':
         optimizer = SGD(model.parameters(), lr=config['lr'], weight_decay=config['reg'])
         # Define loss function
@@ -564,6 +602,29 @@ def construct_agent_image(config, device):
                          reg=config['reg'],
                          reduce=10,
                          device=device)
+    elif algo_name == 'FGNeuralTS':
+        model = MiniCNN(in_channel=3 * num_arm).to(device)
+        optimizer = SGD(model.parameters(), lr=config['lr'], weight_decay=config['reg'])
+        # Define loss function
+        if 'loss' not in config:
+            criterion = construct_loss('L2', reduction='mean')
+        else:
+            criterion = construct_loss(config['loss'], reduction='mean')
+        collector = Collector()
+        agent = FGNeuralTS(num_arm, dim_context,
+                           model, optimizer,
+                           criterion, collector,
+                           config['nu'],
+                           batch_size=batchsize,
+                           image=True,
+                           reg=config['reg'],
+                           reduce=10,
+                           feel_good=config.get('feel_good', True),
+                           fg_mode=config.get('fg_mode', 'hard'),
+                           lambda_fg=config.get('lambda_fg', 1.0),
+                           b_fg=config.get('b_fg', 1.0),
+                           smooth_s=config.get('smooth_s', 10.0),
+                           device=device)
     elif algo_name == 'NeuralUCB':
         model = MiniCNN(in_channel=3 * num_arm).to(device)
         optimizer = SGD(model.parameters(), lr=config['lr'], weight_decay=config['reg'])

@@ -1,0 +1,27 @@
+data_name: CIFAR10
+
+# bandit
+num_arm: 10
+dim_context: 3072
+T: 100000
+
+# train
+algo: FGNeuralTS
+model: neural
+loss: L2
+batchsize: 128
+num_iter: 50
+lr: 0.01
+reg: 0.01
+nu: 0.00001
+
+# Smoothed Feel-Good specific parameters
+feel_good: true
+fg_mode: "smooth"
+lambda_fg: 1.0
+b_fg: 1.0
+smooth_s: 10.0
+
+# log
+project: ContextualBandit-Image
+group: Cifar10-SFGNeuralTS 

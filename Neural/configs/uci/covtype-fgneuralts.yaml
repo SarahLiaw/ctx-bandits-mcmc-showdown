@@ -1,0 +1,30 @@
+data_name: covertype
+version: 3
+num_data: 15000
+
+# bandit
+num_arm: 7
+dim_context: 54
+T: 15000
+
+# train
+algo: FGNeuralTS
+model: neural
+act: ReLU
+layers: [100]
+loss: L2
+num_iter: 100
+lr: 0.01
+reg: 0.001
+nu: 0.01
+
+# Feel-Good specific parameters
+feel_good: true
+fg_mode: "hard"
+lambda_fg: 1.0
+b_fg: 1.0
+smooth_s: 10.0
+
+# log
+project: ContextualBandit-UCI
+group: Covertype-FGNeuralTS 

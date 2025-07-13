@@ -1,0 +1,30 @@
+data_name: adult
+version: 2
+num_data: 20000
+
+# bandit
+num_arm: 2
+dim_context: 14
+T: 10000
+
+# train
+algo: FGNeuralTS
+model: neural
+act: ReLU
+layers: [100]
+loss: L2
+num_iter: 100
+reg: 0.01
+nu: 0.000001
+lr: 0.01
+
+# Smoothed Feel-Good specific parameters
+feel_good: true
+fg_mode: "smooth"
+lambda_fg: 1.0
+b_fg: 1.0
+smooth_s: 10.0
+
+# log
+project: ContextualBandit-Neurips
+group: Adult-SFGNeuralTS 
