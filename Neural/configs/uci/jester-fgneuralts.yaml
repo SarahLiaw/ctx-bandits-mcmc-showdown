@@ -5,16 +5,26 @@ num_data: 19181  # Complete subset of users rating all 40 jokes
 # bandit
 num_arm: 8      # k = 8 jokes as arms
 dim_context: 32 # d = 32 ratings as user context
-T: 10000         # Number of rounds
+T: 10000        # Number of rounds
 
 # train
-algo: LMCTS
+algo: FGNeuralTS
 model: neural
-act: LeakyReLU
-layers: [100, 50, 25]  # Enhanced architecture: wider first layer, narrowing down
-num_iter: 100  # More update iterations per step
-beta_inv: 0.001  # 10x higher to increase exploration
+act: ReLU
+layers: [100]
+loss: L2
+num_iter: 100
+reg: 0.01
+nu: 0.000001
 lr: 0.01
+
+# Feel-Good specific parameters
+feel_good: true
+fg_mode: "hard"
+lambda_fg: 1.0
+b_fg: 1.0
+smooth_s: 10.0
 
 # log
 project: ContextualBandit-Neurips
+group: Jester-FGNeuralTS 

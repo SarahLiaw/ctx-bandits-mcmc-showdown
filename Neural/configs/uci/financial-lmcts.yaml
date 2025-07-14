@@ -1,10 +1,10 @@
 data_name: financial
 version: 1
-num_data: 100  # Number of time points to use
+num_data: 3713  # T = 3713 days (14 years of data)
 
 # bandit
-num_arm: 10    # Number of assets
-dim_context: 20  # Feature dimension for each asset
+num_arm: 8     # k = 8 different potential portfolios
+dim_context: 21 # d = 21 publicly-traded companies
 T: 10000       # Number of rounds
 
 # train
@@ -17,4 +17,4 @@ beta_inv: 0.001  # 10x higher to increase exploration
 lr: 0.01
 
 # log
-project: ContextualBandit-Financial
+project: ContextualBandit-Neurips

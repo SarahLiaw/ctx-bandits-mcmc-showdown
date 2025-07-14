@@ -1,0 +1,30 @@
+data_name: financial
+version: 1
+num_data: 3713  # T = 3713 days (14 years of data)
+
+# bandit
+num_arm: 8      # k = 8 different potential portfolios
+dim_context: 21 # d = 21 publicly-traded companies
+T: 10000        # Number of rounds
+
+# train
+algo: SFGNeuralTS
+model: neural
+act: ReLU
+layers: [100]
+loss: L2
+num_iter: 100
+reg: 0.01
+nu: 0.000001
+lr: 0.01
+
+# Smooth Feel-Good specific parameters
+feel_good: true
+fg_mode: "smooth"
+lambda_fg: 1.0
+b_fg: 1.0
+smooth_s: 10.0
+
+# log
+project: ContextualBandit-Neurips
+group: Financial-SFGNeuralTS 
