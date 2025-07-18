@@ -4,7 +4,6 @@ from torch.distributions.multivariate_normal import MultivariateNormal
 from torch import nn
 import random
 
-
 class Random(object):
     '''
     Random bandit: Choose a random arm at each iteration
@@ -48,7 +47,6 @@ class LinUCB(object):
         self.bt +=  reward * v
         self.idx += 1
 
-
 class LinTS(object):
     '''
     Linear Thompson Sampling bandit:
@@ -58,7 +56,6 @@ class LinTS(object):
     - info['std_prior']: standard deviation of the gaussian prior
     - info['phi']: function (context x number of arms) -> all feature vectors
     - info['phi_a']: function (context x arm x number of arms) -> feature vector of the corresponding arm 
-    
     '''
     def __init__(self, info):
         self.info = info
@@ -101,16 +98,15 @@ class EpsGreedy(object):
     '''
     def __init__(self, info):
         self.info = info
-        # --- Validate and store parameters ---
         if 'nb_arms' not in self.info or not isinstance(self.info['nb_arms'], int) or self.info['nb_arms'] <= 0:
             raise ValueError("info['nb_arms'] must be a positive integer.")
         self.nb_arms = self.info['nb_arms']
 
         if 'epsilon' not in self.info or not isinstance(self.info['epsilon'], (float, int)) or not (0 <= self.info['epsilon'] <= 1):
              raise ValueError("info['epsilon'] must be a float between 0 and 1.")
-        self.epsilon_base = self.info['epsilon'] # Store the base epsilon
+        self.epsilon_base = self.info['epsilon']
 
-        self.decay = self.info.get('epsilon_decay', True) # Default to decaying epsilon
+        self.decay = self.info.get('epsilon_decay', True)
         self.force_explore = self.info.get('force_explore_first', True) 
         
         self.num_draw = torch.zeros(self.nb_arms, dtype=torch.long)
@@ -119,51 +115,28 @@ class EpsGreedy(object):
 
         print(f"Initialized EpsGreedy: Arms={self.nb_arms}, Epsilon={self.epsilon_base}, Decay={self.decay}, ForceExplore={self.force_explore}")
 
-
     def choose_arm(self, features, arm_idx):
         """
         Chooses an arm based on the epsilon-greedy strategy.
         Ignores features and arm_idx (non-contextual).
         """
-        self.step += 1 # Increment step count at the beginning of a choice
-
-        # 1. Initial Forced Exploration Phase (if enabled)
-        # Find arms that have not been pulled yet
+        self.step += 1
         if self.force_explore:
              untried_arms = torch.where(self.num_draw == 0)[0]
              if len(untried_arms) > 0:
-                 # Choose randomly among untried arms
                  chosen_arm = random.choice(untried_arms.tolist())
-                 # print(f"Step {self.step}: Forcing exploration - choosing untried arm {chosen_arm}") # Debug
                  return chosen_arm
-        
-        # If force_explore is disabled or all arms have been tried at least once...
-        
-        # 2. Epsilon-Greedy Exploration/Exploitation Phase
-        
-        # Calculate current epsilon value
         current_epsilon = self.epsilon_base
         if self.decay:
-            # Avoid division by zero, ensure decay starts meaningfully
-            decay_step = max(1, self.step - (self.nb_arms if self.force_explore else 0)) # Adjust step if initial exploration happened
+            decay_step = max(1, self.step - (self.nb_arms if self.force_explore else 0))
             current_epsilon = self.epsilon_base / np.sqrt(decay_step) 
-        
-        # Ensure epsilon doesn't exceed 1.0
         current_epsilon = min(current_epsilon, 1.0)
-
-        # Make exploration/exploitation decision
         if random.uniform(0, 1) < current_epsilon:
-            # Explore: Choose a random arm uniformly from all possible arms
             chosen_arm = random.randrange(self.nb_arms)
-            # print(f"Step {self.step}: Exploring (eps={current_epsilon:.4f}) - choosing random arm {chosen_arm}") # Debug
         else:
-            # Exploit: Choose the arm with the highest current average reward
-            # Break ties randomly
             max_reward = torch.max(self.avg_rewards)
             best_arms = torch.where(self.avg_rewards == max_reward)[0]
             chosen_arm = random.choice(best_arms.tolist())
-            # print(f"Step {self.step}: Exploiting (eps={current_epsilon:.4f}) - choosing best arm {chosen_arm} (AvgRew={max_reward:.3f})") # Debug
-
         return chosen_arm
 
     def update(self, action, reward, features, arm_idx):
@@ -172,23 +145,12 @@ class EpsGreedy(object):
         Ignores features and arm_idx (non-contextual).
         'action' is the index of the arm that was pulled.
         """
-        # Basic validation
         if action < 0 or action >= self.nb_arms:
              print(f"Warning: EpsGreedy received invalid action {action} for {self.nb_arms} arms.")
              return
-
-        # Update counts and average reward using the incremental formula
-        # Q_{n+1} = Q_n + (R_{n+1} - Q_n) / (n + 1)
-        n = self.num_draw[action].item() # Get current count BEFORE incrementing
+        n = self.num_draw[action].item()
         current_avg = self.avg_rewards[action].item()
-
-        # Calculate new average reward
-        # Avoid division by zero if n=0 (although logic should prevent this if choose_arm works)
         new_avg = current_avg + (reward - current_avg) / (n + 1)
-
-        # Update state
         self.avg_rewards[action] = new_avg
         self.num_draw[action] += 1
         
-        # self.step is incremented in choose_arm
-

@@ -8,7 +8,7 @@ dim_context: 21 # d = 21 publicly-traded companies
 T: 10000        # Number of rounds
 
 # train
-algo: SFGNeuralTS
+algo: FGNeuralTS
 model: neural
 act: ReLU
 layers: [100]
@@ -21,7 +21,7 @@ lr: 0.01
 # Smooth Feel-Good specific parameters
 feel_good: true
 fg_mode: "smooth"
-lambda_fg: 1.0
+lambda_fg: 0.01
 b_fg: 1.0
 smooth_s: 10.0
 

@@ -6,9 +6,7 @@ from train_utils.dataset import sample_data
 class FGLMCTS(LMCTS):
     """
     Feel‑Good / Smoothed‑Feel‑Good LMCTS
-    ------------------------------------
-    Extra JSON/YAML hyper‑parameters
-    ------------------------------------
+    
     feel_good : bool    # turn the exploration bonus on/off (default False)
     fg_mode : str       # "hard" or "smooth" (default "hard")
     lambda_fg : float   # weight λ
@@ -31,7 +29,7 @@ class FGLMCTS(LMCTS):
         self.smooth_s = smooth_s
 
     def _phi_s(self, u: torch.Tensor) -> torch.Tensor:
-        """Φ_s(u) = log(1 + e^{su}) / s  (element-wise soft-plus)"""
+        """phi_s(u) = log(1 + e^{su}) / s  (element-wise soft-plus)"""
         return torch.nn.functional.softplus(self.smooth_s * u) / self.smooth_s
 
     def _fg_bonus(self, pred: torch.Tensor) -> torch.Tensor:

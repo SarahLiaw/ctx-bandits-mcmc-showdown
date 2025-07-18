@@ -1,6 +1,6 @@
 data_name: jester
 version: 1
-num_data: 19181  # Complete subset of users rating all 40 jokes
+num_data: 14936
 
 # bandit
 num_arm: 8      # k = 8 jokes as arms

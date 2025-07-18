@@ -19,5 +19,5 @@ reg: 0.001
 nu: 0.01
 
 # log
-project: ContextualBandit-UCI
+project: ContextualBandit-Neurips
 group: Covertype-NeuralTS

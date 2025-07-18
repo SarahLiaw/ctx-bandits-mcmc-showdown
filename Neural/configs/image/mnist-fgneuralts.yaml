@@ -21,9 +21,10 @@ nu: 0.00001
 # Feel-Good specific parameters
 feel_good: true
 fg_mode: "hard"
-lambda_fg: 1.0
-b_fg: 1.0
+lambda_fg: 0.05
+b_fg: 10
 smooth_s: 10.0
+
 
 # log
 project: ContextualBandit-Neurips
