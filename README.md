@@ -106,5 +106,5 @@ If you use this code in your research, please consider citing our paper:
       eprint={2507.15290},
       archivePrefix={arXiv},
       primaryClass={cs.LG},
-      url={https://arxiv.org/abs/2507.15290}, 
+      url={[https://arxiv.org/abs/2507.15290](https://arxiv.org/abs/2507.15290)}, 
 }
