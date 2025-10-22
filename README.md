@@ -1,177 +1,130 @@
-# Feel-Good Thompson Sampling for Contextual Bandits: a Markov Chain Monte Carlo Showdown
+# Contextual Bandits MCMC Showdown
 
-This repository implements various MCMC-based contextual bandit algorithms.
+A comprehensive implementation of contextual bandit algorithms using Markov Chain Monte Carlo methods, featuring both classical MCMC approaches and modern neural bandit algorithms.
 
-## Features
+## 🏗️ Repository Structure
 
-- **Algorithms**:
-  - Langevin Monte Carlo (LMC)
-  - Underdamped Langevin Monte Carlo (ULMC)
-  - Metropolis-Adjusted Langevin Algorithm (MALA)
-  - Hamiltonian Monte Carlo (HMC)
-  - Epsilon-Greedy
-  - Upper-Confidence-Bound (UCB)
-  - Neural Thompson Sampling (NTS)
-  - Linear Thompson Sampling (LTS)
-  - Neural Upper-Confidence-Bound (NUCB)
-  - Neural Greedy (NG)
-  - And numerous variants with Feel-Good and smoothed Feel-Good exploration terms
+```
+ctx-bandits-mcmc-showdown/
+├── README.md                    # Main documentation
+├── INSTALL.md                   # Detailed installation guide
+├── CONTRIBUTING.md              # Contribution guidelines
+├── requirements.txt             # Python dependencies
+├── LICENSE                      # MIT License
+│
+├── src/                         # Core MCMC algorithms
+│   ├── MCMC.py                  # Main MCMC implementations
+│   ├── baseline.py              # Baseline algorithms
+│   ├── dataset.py               # Dataset utilities
+│   ├── game.py                  # Game environment
+│   ├── toy_example.py           # Example usage
+│   ├── run_experiments.py       # Experiment runner
+│   ├── run_all_wheel_agents.py  # Wheel dataset experiments
+│   ├── run_linear_batch.py      # Linear bandit batch experiments
+│   └── config/                  # JSON configs for MCMC algorithms
+│       ├── linear/              # Linear bandit configs
+│       ├── logistic/             # Logistic bandit configs
+│       └── wheel/               # Wheel bandit configs
+│
+├── Neural/                      # Neural bandit implementations
+│   ├── algo/                    # Neural bandit algorithms
+│   ├── models/                  # Neural network models
+│   ├── train_utils/             # Training utilities
+│   ├── configs/                 # YAML configs for neural experiments
+│   │   ├── image/               # Image dataset configs (CIFAR-10, MNIST)
+│   │   ├── uci/                 # UCI dataset configs
+│   │   ├── restaurant/          # Restaurant dataset configs
+│   │   ├── simulation/          # Simulation configs
+│   │   └── profile/             # Profile dataset configs
+│   ├── analyze_regret/          # Regret analysis tools
+│   ├── data/                    # Dataset storage
+│   ├── sweep/                   # Hyperparameter sweep configs
+│   ├── run_*.py                 # Dataset-specific runners
+│   └── README.md                # Neural-specific documentation
+│
+└── scripts/                     # Main execution scripts
+    └── run.py                   # Main experiment runner
+```
 
-- **Environments**:
-  - Linear bandits
-  - Logistic bandits
-  - Wheel bandit problem
-  - Neural bandits
+## 🚀 Quick Start
 
-## Installation
-
-### Option 1: Using pip (Recommended)
-
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/YOUR_USERNAME/ctx-bandits-mcmc-showdown.git
-   cd ctx-bandits-mcmc-showdown
-   ```
-
-2. Create a virtual environment (recommended):
-   ```bash
-   python -m venv venv
-   source venv/bin/activate  # On Windows: venv\Scripts\activate
-   ```
-
-3. Install the required packages:
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-### Option 2: Using conda
-
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/YOUR_USERNAME/ctx-bandits-mcmc-showdown.git
-   cd ctx-bandits-mcmc-showdown
-   ```
-
-2. Create a conda environment:
-   ```bash
-   conda create -n ctx-bandits python=3.10
-   conda activate ctx-bandits
-   ```
-
-3. Install PyTorch (with CUDA support if you have a GPU):
-   ```bash
-   # For CPU only
-   conda install pytorch torchvision torchaudio cpuonly -c pytorch
-   
-   # For GPU (CUDA 11.8)
-   conda install pytorch torchvision torchaudio pytorch-cuda=11.8 -c pytorch -c nvidia
-   
-   # For GPU (CUDA 12.1)
-   conda install pytorch torchvision torchaudio pytorch-cuda=12.1 -c pytorch -c nvidia
-   ```
-
-4. Install remaining dependencies:
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-### Option 3: Using the environment.yml file
-
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/YOUR_USERNAME/ctx-bandits-mcmc-showdown.git
-   cd ctx-bandits-mcmc-showdown
-   ```
-
-2. Create environment from yml file:
-   ```bash
-   conda env create -f environment.yml
-   conda activate ctx-bandits-mcmc-showdown
-   ```
-
-### System Requirements
-
-- **Python**: 3.8 or higher
-- **Memory**: At least 8GB RAM (16GB recommended for neural experiments)
-- **GPU**: Optional but recommended for neural bandit experiments
-- **CUDA**: 11.8 or 12.1 (if using GPU)
-
-### Verification
-
-To verify your installation, run:
+### Installation
 ```bash
-python -c "import torch; import wandb; import pandas; print('Installation successful!')"
+git clone https://github.com/YOUR_USERNAME/ctx-bandits-mcmc-showdown.git
+cd ctx-bandits-mcmc-showdown
+pip install -r requirements.txt
 ```
 
-## Quick Start
+### Running Experiments
 
-### Running Linear Bandit Experiments
-
-To run a linear bandit experiment with the LMC-TS agent:
-
+**Classical MCMC Algorithms:**
 ```bash
-python3 run.py --config_path config/linear/lmcts.json
+python scripts/run.py --config_path src/config/linear/lmcts.json
 ```
 
-### Running Wheel Bandit Experiments
-
-To run the wheel bandit experiment with the ULMC agent:
-
+**Neural Bandit Algorithms:**
 ```bash
-python3 run_all_wheel_agents.py --agents ulmc --num_trials 1
+python Neural/run_restaurant.py --config_path Neural/configs/restaurant/restaurant-restaurant-lmcts.yaml
 ```
 
-### Batch Running Multiple Experiments
-
-To run multiple experiments with different seeds:
-
+**Batch Experiments:**
 ```bash
-python3 run_linear_batch.py --n_seeds 5
+python src/run_linear_batch.py --n_seeds 5
 ```
 
-## Configuration
+## 📊 Supported Algorithms
 
-Configuration files are stored in the `config/` directory, organized by environment type (linear, logistic, wheel, neural). Each agent has its own configuration file with hyperparameters.
+### Classical MCMC
+- Langevin Monte Carlo (LMC)
+- Underdamped Langevin Monte Carlo (ULMC)
+- Metropolis-Adjusted Langevin Algorithm (MALA)
+- Hamiltonian Monte Carlo (HMC)
 
-## Results
+### Neural Bandits
+- Neural Thompson Sampling (NeuralTS)
+- Neural Upper Confidence Bound (NeuralUCB)
+- Neural Epsilon-Greedy
+- Linear Thompson Sampling (LinTS)
+- LMCTS (Langevin MCTS)
+- Feel-Good variants (FGNeuralTS, FGLMCTS)
+- Smoothed Feel-Good variants (SFGNeuralTS, SFGLMCTS)
 
-Results are saved in the `results/` directory by default. The directory structure is:
+## 📈 Datasets
 
-```
-results/
-  |-- linear/
-  |-- logistic/
-  |-- wheel/
-  |-- neural/
-```
+- **Linear/Logistic Bandits**: Synthetic datasets
+- **Wheel Bandit**: Classic contextual bandit problem
+- **UCI Datasets**: Adult, Covtype, Mushroom, Shuttle, Magic, Financial, Jester
+- **Image Datasets**: CIFAR-10, MNIST
+- **Restaurant Dataset**: Real-world recommendation data
 
-## Weights & Biases Integration
+## 🔬 Analysis Tools
 
-The code is integrated with Weights & Biases for experiment tracking. To use it:
+- **Regret Analysis**: `Neural/analyze_regret/restaurant_regret_analysis.py`
+- **Experiment Tracking**: Weights & Biases integration
+- **Hyperparameter Sweeps**: Organized sweep configurations
 
-1. Install wandb: `pip install wandb`
-2. Log in: `wandb login`
-3. Run your experiments - results will be logged to your W&B account
+## 📚 Documentation
 
-## Adding New Agents
+- [Installation Guide](INSTALL.md) - Detailed setup instructions
+- [Contributing Guidelines](CONTRIBUTING.md) - How to contribute
+- [Neural Module README](Neural/README.md) - Neural-specific documentation
 
-To add a new agent:
+## 📄 Citation
 
-1. Create a new class in `src/MCMC.py` inheriting from the base agent class
-2. Implement the required methods (`choose_arm`, `update`, etc.)
-3. Add the agent to the `format_agent` function in `run.py`
-4. Create a configuration file in the appropriate `config/` subdirectory
+If you use this code in your research, please cite:
 
-## Citation
-
-If you use this code in your research, please consider citing our paper:
-
+```bibtex
 @article{anand2025feelgoodthompsonsamplingcontextual,
-      title={Feel-Good Thompson Sampling for Contextual Bandits: a Markov Chain Monte Carlo Showdown}, 
-      author={Emile Anand and Sarah Liaw},
-      year={2025},
-      eprint={2507.15290},
-      archivePrefix={arXiv},
-      primaryClass={cs.LG},
-      url={[https://arxiv.org/abs/2507.15290](https://arxiv.org/abs/2507.15290)}, 
+  title={Feel-Good Thompson Sampling for Contextual Bandits: a Markov Chain Monte Carlo Showdown}, 
+  author={Emile Anand and Sarah Liaw},
+  year={2025},
+  eprint={2507.15290},
+  archivePrefix={arXiv},
+  primaryClass={cs.LG},
+  url={https://arxiv.org/abs/2507.15290}
 }
+```
+
+## 📝 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.

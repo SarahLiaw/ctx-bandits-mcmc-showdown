@@ -1,79 +1,94 @@
-# Langevin Monte Carlo for Contextual Bandits
+# Neural Bandit Algorithms
 
-This folder contains the PyTorch implementation of **Langevin Monte Carlo Thompson Sampling (LMC-TS)**, as proposed in the paper *Langevin Monte Carlo for Contextual Bandits*.
+This directory contains neural bandit implementations and experiments for contextual bandit problems.
 
----
+## 🏗️ Structure
 
-## Experiment Guide
+- `algo/` - Neural bandit algorithm implementations
+- `models/` - Neural network model definitions  
+- `train_utils/` - Training utilities and data adapters
+- `configs/` - YAML configuration files for experiments
+- `analyze_regret/` - Regret analysis and evaluation tools
+- `data/` - Dataset storage (excluded from git)
+- `sweep/` - Hyperparameter sweep configurations
 
-This guide explains how to run experiments with different datasets using the Langevin Monte Carlo Thompson Sampling (LMCTS) algorithm and other bandit algorithms.
+## 🚀 Quick Start
 
-### Common Parameters
-
-- `--repeat [NUM]`: Number of times to repeat the experiment (for reliable results)
-- `--log`: Enable logging to Weights & Biases (WandB)
-- `--config_path`: Path to configuration YAML file
-
-### Financial Dataset Experiments
-
-The financial dataset uses Yahoo Finance data to simulate a portfolio allocation task.
-
+### Restaurant Dataset
 ```bash
-python Neural/run_financial.py --config_path Neural/configs/uci/financial-lmcts.yaml --device cpu --repeat 1 --log
-```
-
-Key configuration parameters:
-- `beta_inv`: Controls exploration (higher value = more exploration)
-- `layers`: Neural network architecture (e.g., [100, 50, 25])
-- `num_iter`: Number of MCMC iterations per step
-
-### Jester Dataset Experiments
-
-The Jester dataset contains joke ratings that can be used for recommendation tasks.
-
-```bash
-python Neural/run_jester.py --config_path Neural/configs/uci/jester-lmcts.yaml --device cpu --repeat 5 --log
-```
-
-Note: The first run may require installing `xlrd` package if working with Excel files:
-```bash
-pip install xlrd
+python run_restaurant.py --config_path configs/restaurant/restaurant-restaurant-lmcts.yaml --log
 ```
 
 ### CIFAR-10 Image Experiments
-
-The CIFAR-10 dataset is used for image classification tasks.
-
 ```bash
-python Neural/run_cifar.py --config_path Neural/configs/image/cifar10-lmcts.yaml --repeat 5 --log
+python run_cifar.py --config_path configs/image/cifar10-neuralts.yaml --log
 ```
-
-Note: The CIFAR-10 experiment uses a different configuration directory (`configs/image/` instead of `configs/uci/`).
 
 ### UCI Datasets
-
-To run bandit algorithms on UCI datasets (like Adult Census, Shuttle, etc.), use:
-
 ```bash
-python Neural/run_classifier.py --config_path Neural/configs/uci/shuttle-lmcts.yaml --repeat 5 --log
+python run_classifier.py --config_path configs/uci/shuttle-lmcts.yaml --log
 ```
 
-Popular UCI datasets with configurations:
-- Adult (Census): `configs/uci/adult-lmcts.yaml`
-- Shuttle: `configs/uci/shuttle-lmcts.yaml`
-- Mushroom: `configs/uci/mushroom-lmcts.yaml`
+### Financial Dataset
+```bash
+python run_financial.py --config_path configs/uci/financial-lmcts.yaml --log
+```
 
-## Analyzing Results
+## 📊 Supported Algorithms
 
-To generate plots and analyze experiment results:
-1. Run experiments with the `--log` flag to save results to WandB
-2. Update the `analyze_regret` folder with your WandB path
-3. Follow the analysis scripts to generate comparison plots
+- **NeuralTS**: Neural Thompson Sampling
+- **NeuralUCB**: Neural Upper Confidence Bound  
+- **NeuralEpsGreedy**: Neural Epsilon-Greedy
+- **LinTS**: Linear Thompson Sampling
+- **LMCTS**: Langevin Monte Carlo Thompson Sampling
+- **FGNeuralTS**: Feel-Good Neural Thompson Sampling
+- **FGLMCTS**: Feel-Good Langevin Monte Carlo Thompson Sampling
+- **SFGNeuralTS**: Smoothed Feel-Good Neural Thompson Sampling
+- **SFGLMCTS**: Smoothed Feel-Good Langevin Monte Carlo Thompson Sampling
 
-## Configuration Tips
+## 🔬 Analysis Tools
 
-For best performance with LMCTS algorithm:
-1. Use deeper neural network architectures ([100, 50, 25] often works well, but [100] works as well)
-2. Tune `beta_inv` parameter to balance exploration/exploitation
-3. Set sufficient `num_iter` (100+) for thorough posterior sampling
-4. Enable logging to track cumulative regret and returns
+### Regret Analysis
+```bash
+python analyze_regret/restaurant_regret_analysis.py
+python analyze_regret/fetch_regret.py
+```
+
+### Hyperparameter Sweeps
+```bash
+# Use sweep configurations in sweep/ directory
+wandb sweep sweep/image/cifar10-neuralts.yaml
+```
+
+## 📈 Datasets
+
+- **Image**: CIFAR-10, MNIST
+- **UCI**: Adult, Covtype, Mushroom, Shuttle, Magic, Financial, Jester
+- **Restaurant**: Real-world recommendation data
+- **Simulation**: Linear, Logistic, Quadratic bandits
+
+## ⚙️ Configuration Tips
+
+### LMCTS Algorithm
+- Use deeper architectures: `layers: [100, 50, 25]`
+- Tune `beta_inv` for exploration/exploitation balance
+- Set sufficient `num_iter` (100+) for thorough sampling
+
+### Feel-Good Variants
+- `fg_mode: "hard"` for hard feel-good
+- `fg_mode: "smooth"` for smoothed feel-good
+- Tune `lambda_fg` and `b_fg` parameters
+
+## 📝 Common Parameters
+
+- `--repeat [NUM]`: Number of experiment repetitions
+- `--log`: Enable Weights & Biases logging
+- `--config_path`: Path to YAML configuration file
+- `--device`: Device selection (cpu/cuda)
+
+## 🔗 Integration
+
+This module integrates with:
+- **Weights & Biases** for experiment tracking
+- **PyTorch** for neural network implementations
+- **Main repository** for classical MCMC algorithms
