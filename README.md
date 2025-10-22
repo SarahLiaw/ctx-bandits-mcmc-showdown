@@ -2,7 +2,7 @@
 
 A comprehensive implementation of contextual bandit algorithms using Markov Chain Monte Carlo methods, featuring both classical MCMC approaches and modern neural bandit algorithms.
 
-## 🏗️ Repository Structure
+## Repository Structure
 
 ```
 ctx-bandits-mcmc-showdown/
@@ -46,7 +46,7 @@ ctx-bandits-mcmc-showdown/
     └── run.py                   # Main experiment runner
 ```
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Installation
 ```bash
@@ -72,7 +72,7 @@ python Neural/run_restaurant.py --config_path Neural/configs/restaurant/restaura
 python src/run_linear_batch.py --n_seeds 5
 ```
 
-## 📊 Supported Algorithms
+## Supported Algorithms
 
 ### Classical MCMC
 - Langevin Monte Carlo (LMC)
@@ -89,7 +89,7 @@ python src/run_linear_batch.py --n_seeds 5
 - Feel-Good variants (FGNeuralTS, FGLMCTS)
 - Smoothed Feel-Good variants (SFGNeuralTS, SFGLMCTS)
 
-## 📈 Datasets
+## Datasets
 
 - **Linear/Logistic Bandits**: Synthetic datasets
 - **Wheel Bandit**: Classic contextual bandit problem
@@ -97,19 +97,19 @@ python src/run_linear_batch.py --n_seeds 5
 - **Image Datasets**: CIFAR-10, MNIST
 - **Restaurant Dataset**: Real-world recommendation data
 
-## 🔬 Analysis Tools
+## Analysis Tools
 
 - **Regret Analysis**: `Neural/analyze_regret/restaurant_regret_analysis.py`
 - **Experiment Tracking**: Weights & Biases integration
 - **Hyperparameter Sweeps**: Organized sweep configurations
 
-## 📚 Documentation
+## Documentation
 
 - [Installation Guide](INSTALL.md) - Detailed setup instructions
 - [Contributing Guidelines](CONTRIBUTING.md) - How to contribute
 - [Neural Module README](Neural/README.md) - Neural-specific documentation
 
-## 📄 Citation
+## Citation
 
 If you use this code in your research, please cite:
 
@@ -125,6 +125,6 @@ If you use this code in your research, please cite:
 }
 ```
 
-## 📝 License
+## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.

@@ -2,7 +2,7 @@
 
 This directory contains neural bandit implementations and experiments for contextual bandit problems.
 
-## 🏗️ Structure
+## Structure
 
 - `algo/` - Neural bandit algorithm implementations
 - `models/` - Neural network model definitions  
@@ -12,7 +12,7 @@ This directory contains neural bandit implementations and experiments for contex
 - `data/` - Dataset storage (excluded from git)
 - `sweep/` - Hyperparameter sweep configurations
 
-## 🚀 Quick Start
+## Quick Start
 
 ### Restaurant Dataset
 ```bash
@@ -34,7 +34,7 @@ python run_classifier.py --config_path configs/uci/shuttle-lmcts.yaml --log
 python run_financial.py --config_path configs/uci/financial-lmcts.yaml --log
 ```
 
-## 📊 Supported Algorithms
+## Supported Algorithms
 
 - **NeuralTS**: Neural Thompson Sampling
 - **NeuralUCB**: Neural Upper Confidence Bound  
@@ -46,7 +46,7 @@ python run_financial.py --config_path configs/uci/financial-lmcts.yaml --log
 - **SFGNeuralTS**: Smoothed Feel-Good Neural Thompson Sampling
 - **SFGLMCTS**: Smoothed Feel-Good Langevin Monte Carlo Thompson Sampling
 
-## 🔬 Analysis Tools
+## Analysis Tools
 
 ### Regret Analysis
 ```bash
@@ -60,14 +60,14 @@ python analyze_regret/fetch_regret.py
 wandb sweep sweep/image/cifar10-neuralts.yaml
 ```
 
-## 📈 Datasets
+## Datasets
 
 - **Image**: CIFAR-10, MNIST
 - **UCI**: Adult, Covtype, Mushroom, Shuttle, Magic, Financial, Jester
 - **Restaurant**: Real-world recommendation data
 - **Simulation**: Linear, Logistic, Quadratic bandits
 
-## ⚙️ Configuration Tips
+## Configuration Tips
 
 ### LMCTS Algorithm
 - Use deeper architectures: `layers: [100, 50, 25]`
@@ -79,14 +79,14 @@ wandb sweep sweep/image/cifar10-neuralts.yaml
 - `fg_mode: "smooth"` for smoothed feel-good
 - Tune `lambda_fg` and `b_fg` parameters
 
-## 📝 Common Parameters
+## Common Parameters
 
 - `--repeat [NUM]`: Number of experiment repetitions
 - `--log`: Enable Weights & Biases logging
 - `--config_path`: Path to YAML configuration file
 - `--device`: Device selection (cpu/cuda)
 
-## 🔗 Integration
+## Integration
 
 This module integrates with:
 - **Weights & Biases** for experiment tracking
