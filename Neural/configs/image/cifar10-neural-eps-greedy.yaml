@@ -1,19 +1,18 @@
 data_name: CIFAR10
 
-# bandit
 num_arm: 10
 dim_context: 3072
-T: 200000
+T: 25000
 
-# train
 algo: NeuralEpsGreedy
 model: neural
+act: ReLU
 loss: L2
 batchsize: 128
 num_iter: 50
 eps: 0.01
 lr: 0.01
+reg: 0.01
 
-# log
 project: ContextualBandit-Image
 group: Cifar10-NeuralEpsGreedy

@@ -49,10 +49,10 @@ def run(config, args):
     T = config['T']
     dim_context = config['dim_context']
     num_arm = config['num_arm']
-    # ---------------- construct strategy -------------------------
+    # construct strategy
     agent = construct_agent_image(config, device)
 
-    # --------------- construct bandit ---------------------------
+    # construct bandit
     transform = transforms.Compose(
         [transforms.ToTensor(),
          transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))]
@@ -61,7 +61,7 @@ def run(config, args):
 
     dataset = CIFAR10('data', train=False, transform=transform, download=True)
     bandit = DataLoader(dataset, shuffle=True)
-    # --------------------- training -----------------------------
+    # training
     pbar = tqdm(range(T), dynamic_ncols=True, smoothing=0.1)
     loader = sample_data(bandit)
     reward_history = []

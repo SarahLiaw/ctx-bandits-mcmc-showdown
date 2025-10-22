@@ -134,7 +134,7 @@ def construct_agent_cls(config, device):
 
     #     # create optimizer
     #     optimizer = LangevinMC(model.parameters(), lr=config['lr'],
-    #                            beta_inv=beta_inv, weight_decay=2.0)
+    #                           beta_inv=beta_inv, weight_decay=2.0)
     #     # Define loss function
     #     if 'loss' not in config:
     #         criterion = construct_loss('L2', reduction='sum')
@@ -144,11 +144,11 @@ def construct_agent_cls(config, device):
     #     collector = Collector()
         
     #     agent = LMCTS(model, optimizer, criterion,
-    #                   collector,
-    #                   name='MALATS',
-    #                   batch_size=batchsize,
-    #                   decay_step=decay,
-    #                   device=device)
+    #                  collector,
+    #                  name='MALATS',
+    #                  batch_size=batchsize,
+    #                  decay_step=decay,
+    #                  device=device)
 
     ####
 
@@ -676,6 +676,78 @@ def construct_agent_image(config, device):
                              reduce=10,
                              reg=config['reg'],
                              device=device)
+
+    elif algo_name == 'SFGNeuralTS':
+        model = MiniCNN(in_channel=3 * num_arm).to(device)
+        optimizer = SGD(model.parameters(), lr=config['lr'], weight_decay=config['reg'])
+        # Define loss function
+        if 'loss' not in config:
+            criterion = construct_loss('L2', reduction='mean')
+        else:
+            criterion = construct_loss(config['loss'], reduction='mean')
+        collector = Collector()
+        agent = FGNeuralTS(num_arm, dim_context,
+                           model, optimizer,
+                           criterion, collector,
+                           config['nu'],
+                           batch_size=batchsize,
+                           image=True,
+                           reg=config['reg'],
+                           reduce=10,
+                           feel_good=config.get('feel_good', True),
+                           fg_mode='smooth',  # Force smooth mode for SFGNeuralTS
+                           lambda_fg=config.get('lambda_fg', 0.01),
+                           b_fg=config.get('b_fg', 1.0),
+                           smooth_s=config.get('smooth_s', 10.0),
+                           device=device)
+    
+    elif algo_name == 'FGLMCTS':
+        beta_inv = config['beta_inv'] * np.log(T)
+        model = MiniCNN(in_channel=3 * num_arm).to(device)
+        optimizer = LangevinMC(model.parameters(), lr=config['lr'],
+                               beta_inv=beta_inv, weight_decay=2.0)
+        # Define loss function
+        if 'loss' not in config:
+            criterion = construct_loss('L2', reduction='sum')
+        else:
+            criterion = construct_loss(config['loss'], reduction='sum')
+        collector = Collector()
+        agent = FGLMCTS(model, optimizer, criterion,
+                      collector,
+                      name='FGLMCTS',
+                      batch_size=batchsize,
+                      reduce=5,
+                      decay_step=decay,
+                      feel_good=config.get('feel_good', True),
+                      fg_mode=config.get('fg_mode', 'hard'),
+                      lambda_fg=config.get('lambda_fg', 0.01),
+                      b_fg=config.get('b_fg', 1.0),
+                      smooth_s=config.get('smooth_s', 10.0),
+                      device=device)
+    
+    elif algo_name == 'SFGLMCTS':
+        beta_inv = config['beta_inv'] * np.log(T)
+        model = MiniCNN(in_channel=3 * num_arm).to(device)
+        optimizer = LangevinMC(model.parameters(), lr=config['lr'],
+                               beta_inv=beta_inv, weight_decay=2.0)
+        # Define loss function
+        if 'loss' not in config:
+            criterion = construct_loss('L2', reduction='sum')
+        else:
+            criterion = construct_loss(config['loss'], reduction='sum')
+        collector = Collector()
+        agent = FGLMCTS(model, optimizer, criterion,
+                      collector,
+                      name='SFGLMCTS',
+                      batch_size=batchsize,
+                      reduce=5,
+                      decay_step=decay,
+                      feel_good=config.get('feel_good', True),
+                      fg_mode='smooth',  # Force smooth mode for SFGLMCTS
+                      lambda_fg=config.get('lambda_fg', 0.01),
+                      b_fg=config.get('b_fg', 1.0),
+                      smooth_s=config.get('smooth_s', 10.0),
+                      device=device)
 
     elif algo_name == 'FGMALATS':
         beta_inv = config['beta_inv'] * dim_context * np.log(T)

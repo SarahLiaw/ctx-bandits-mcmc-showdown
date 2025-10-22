@@ -118,7 +118,7 @@ for cfg in configs:
     plt.fill_between(t, mean - std, mean + std, alpha=0.25)
     plt.xlabel("t")
     plt.ylabel("cumulative regret")
-    plt.title(f"{algo}: mean ±1 std over {N_SEEDS} seeds")
+    plt.title(f"{algo}: mean +/-1 std over {N_SEEDS} seeds")
     plt.legend()
     fig_path = algo_out / "agg.png"
     plt.savefig(fig_path, dpi=150)

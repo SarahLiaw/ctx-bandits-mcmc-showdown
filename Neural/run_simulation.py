@@ -58,10 +58,9 @@ def run(config, args):
     else:
         raise ValueError('Only linear or quadratic function')
     print(config)
-    # ------------- construct strategy --------------------
+    # construct strategy
 
     agent = construct_agent_sim(config, device)
-    # ---------------------------------------------------
     pbar = tqdm(range(T), dynamic_ncols=True, smoothing=0.1)
 
     regret_history = []

@@ -51,10 +51,10 @@ def run(config, args):
     T = config['T']
     dim_context = config['dim_context']
     num_arm = config['num_arm']
-    # ---------------- construct strategy -------------------------
+    # construct strategy
     agent = construct_agent_cls(config, device)
 
-    # --------------- construct bandit ---------------------------
+    # construct bandit
     # dataset = UCI(config['datapath'], dim_context, num_arm)
     num_data = config['num_data'] if 'num_data' in config else None
 
@@ -62,7 +62,7 @@ def run(config, args):
     dataset = AutoUCI(config['data_name'], dim_context, num_arm,
                       num_data, config['version'])
     bandit = DataLoader(dataset, shuffle=True)
-    # --------------------- training -----------------------------
+    # training
     pbar = tqdm(range(T), dynamic_ncols=True, smoothing=0.1)
     loader = sample_data(bandit)
     reward_history = []

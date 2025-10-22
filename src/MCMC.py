@@ -286,7 +286,7 @@ class PLMCTS(object):
     Pre-conditioned LMC-TS
     --
     Extra hyper-parameters
-    - lambda_reg: λ in  V_t = λ I + Σ x_s x_sᵀ   (default 1.0)
+    - lambda_reg: lambda in  V_t = lambda I + Sigma x_s x_s^T   (default 1.0)
     All other keys identical to the original LMCTS.
     """
    #  init 
@@ -314,7 +314,7 @@ class PLMCTS(object):
         self._loss().backward()
         return self.theta.grad.detach()
 
-   #  pre-conditioner  V_t⁻¹
+   #  pre-conditioner  V_t^(-1)
     def _V_inv(self):
         d = self.info['d']
         if self.X.shape[0] == 0: 
@@ -399,7 +399,7 @@ class PFGLMCTS(PLMCTS):
     def update(self, a, reward, ctx, arm_idx):
         """
         - push played-arm feature into X, reward into r
-        - push full arm-feature matrix into V  (size A×d)
+        - push full arm-feature matrix into V  (size A x d)
         - update inverse pre-conditioner via parent method
         """
         x_played = self.info['phi_a'](ctx, a, self.info['nb_arms'])
@@ -486,13 +486,13 @@ class HMCTS(object):
       d       : parameter dimension
       std_prior : Gaussian prior std
       eta     : inverse temperature (data term weight)
-      step_size : ε  (leap-frog step size)
+      step_size : epsilon  (leap-frog step size)
       L_leap  : L  (# leap-frog steps per proposal)
       K       : inner proposals when posterior updated
       K_not_updated  : proposals when posterior unchanged
       nb_arms : # arms
-      phi     : ctx→(A×d)   feature matrix
-      phi_a   : ctx,a→d     played-arm feature
+      phi     : ctx->(A x d)   feature matrix
+      phi_a   : ctx,a->d     played-arm feature
     """
 
     def __init__(self, info):
@@ -666,7 +666,7 @@ class SFGHMCTS(HMCTS):
         
 
 def _build_metric(X, lmbda):
-    """Returns  V  and  Vinv  (d×d PSD)  given feature history X."""
+    """Returns  V  and  Vinv  (d x d PSD)  given feature history X."""
     d = X.shape[1]
     V = X.t() @ X + lmbda * torch.eye(d, device=X.device, dtype=X.dtype)
     Vinv = torch.linalg.inv(V)

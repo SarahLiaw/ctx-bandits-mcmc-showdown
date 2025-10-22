@@ -99,9 +99,9 @@ def mala_sampling(
     Parameters
     ----------
     init_theta  : starting position      (torch.Tensor,   requires_grad = False)
-    logp_fn     : lambda θ → log π(θ)    (callable)
-    step_size   : γ in the paper         (float)
-    beta_inv    : 1/β  (noise scale)     (float)
+    logp_fn     : lambda theta -> log pi(theta)    (callable)
+    step_size   : gamma in the paper         (float)
+    beta_inv    : 1/beta  (noise scale)     (float)
     n_steps     : number of MALA moves   (int)
     lazy        : prepend a 'stay-put'   (bool)
     Returns
@@ -115,7 +115,7 @@ def mala_sampling(
     unif   = Uniform(torch.tensor(0., device=theta.device), torch.tensor(1., device=theta.device))
 
     for k in range(n_steps):
-        # ---------- proposal (Euler–Maruyama) ----------
+        # proposal (Euler-Maruyama)
         theta.requires_grad_(True)
         logp = logp_fn(theta)
         grad = torch.autograd.grad(logp, theta)[0]
@@ -124,8 +124,8 @@ def mala_sampling(
         noise = torch.sqrt(torch.tensor(2.*step_size*beta_inv, device=theta.device))*normal.sample()
         prop  = theta + step_size * grad + noise
 
-        # ---------- accept / reject ----------
-        # forward transition density q(θ→θ')
+        # accept / reject
+        # forward transition density q(theta->theta')
         def _log_q(x_from, x_to, grad_from):
             diff = x_to - (x_from + step_size*grad_from)
             return - diff.pow(2).sum() / (4.*step_size*beta_inv)

@@ -2,12 +2,10 @@ data_name: adult
 version: 2
 num_data: 20000
 
-# bandit
 num_arm: 2
 dim_context: 14
 T: 10000
 
-# train
 algo: LMCTS
 model: neural
 act: LeakyReLU
@@ -20,6 +18,5 @@ num_iter: 100
 beta_inv: 0.00001
 lr: 0.005
 
-# log
 project: ContextualBandit-Neurips
 group: Adult-LMCTS

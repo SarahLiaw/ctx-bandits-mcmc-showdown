@@ -1,5 +1,4 @@
 datapath: data/gaussian50-20-1-1.pt
-# bandit
 num_arm: 50
 dim_context: 20
 T: 10000
@@ -8,7 +7,6 @@ func: logistic
 index: 0
 num_data: 1
 
-# train
 algo: LMCTS
 model: linear
 loss: Logistic
@@ -16,6 +14,5 @@ num_iter: 100
 beta_inv: 0.001
 lr: 0.1
 
-# log
 project: ContextualBandit-Neurips
 group: Logistic-LMCTS

@@ -706,8 +706,8 @@ class UCBGLM(_agent):
         # self.model.init_weights()
         self.collector.clear()
         # self.DesignInv = (1 / self.reg) * \
-        #                  torch.eye(self.dim_context,
-        #                            device=self.device)  # compute its inverse
+        #                 torch.eye(self.dim_context,
+        #                         device=self.device)  # compute its inverse
         self.Design = 0
         self.last_cxt = 0
 

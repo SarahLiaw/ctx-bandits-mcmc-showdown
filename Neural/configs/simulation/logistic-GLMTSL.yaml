@@ -1,5 +1,4 @@
 datapath: data/gaussian50-20-1-1.pt
-# bandit
 num_arm: 50
 dim_context: 20
 
@@ -9,7 +8,6 @@ T: 10000
 sigma: 0.0
 func: logistic
 
-# train
 algo: GLMTSL
 model: linear
 loss: Logistic
@@ -19,6 +17,5 @@ nu: 0.01
 reg: 0.0
 lr: 0.01
 
-# log
 project: ContextualBandit-Neurips
 group: Logistic-GLMTSL

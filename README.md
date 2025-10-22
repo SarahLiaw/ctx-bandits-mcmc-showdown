@@ -25,16 +25,83 @@ This repository implements various MCMC-based contextual bandit algorithms.
 
 ## Installation
 
+### Option 1: Using pip (Recommended)
+
 1. Clone the repository:
    ```bash
-   git clone <repository-url>
-   cd MCMC_cb
+   git clone https://github.com/YOUR_USERNAME/ctx-bandits-mcmc-showdown.git
+   cd ctx-bandits-mcmc-showdown
    ```
 
-2. Install the required packages:
+2. Create a virtual environment (recommended):
+   ```bash
+   python -m venv venv
+   source venv/bin/activate  # On Windows: venv\Scripts\activate
+   ```
+
+3. Install the required packages:
    ```bash
    pip install -r requirements.txt
    ```
+
+### Option 2: Using conda
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/YOUR_USERNAME/ctx-bandits-mcmc-showdown.git
+   cd ctx-bandits-mcmc-showdown
+   ```
+
+2. Create a conda environment:
+   ```bash
+   conda create -n ctx-bandits python=3.10
+   conda activate ctx-bandits
+   ```
+
+3. Install PyTorch (with CUDA support if you have a GPU):
+   ```bash
+   # For CPU only
+   conda install pytorch torchvision torchaudio cpuonly -c pytorch
+   
+   # For GPU (CUDA 11.8)
+   conda install pytorch torchvision torchaudio pytorch-cuda=11.8 -c pytorch -c nvidia
+   
+   # For GPU (CUDA 12.1)
+   conda install pytorch torchvision torchaudio pytorch-cuda=12.1 -c pytorch -c nvidia
+   ```
+
+4. Install remaining dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+### Option 3: Using the environment.yml file
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/YOUR_USERNAME/ctx-bandits-mcmc-showdown.git
+   cd ctx-bandits-mcmc-showdown
+   ```
+
+2. Create environment from yml file:
+   ```bash
+   conda env create -f environment.yml
+   conda activate ctx-bandits-mcmc-showdown
+   ```
+
+### System Requirements
+
+- **Python**: 3.8 or higher
+- **Memory**: At least 8GB RAM (16GB recommended for neural experiments)
+- **GPU**: Optional but recommended for neural bandit experiments
+- **CUDA**: 11.8 or 12.1 (if using GPU)
+
+### Verification
+
+To verify your installation, run:
+```bash
+python -c "import torch; import wandb; import pandas; print('Installation successful!')"
+```
 
 ## Quick Start
 
@@ -72,10 +139,10 @@ Results are saved in the `results/` directory by default. The directory structur
 
 ```
 results/
-  ├── linear/
-  ├── logistic/
-  └── wheel/
-  └── neural/
+  |-- linear/
+  |-- logistic/
+  |-- wheel/
+  |-- neural/
 ```
 
 ## Weights & Biases Integration

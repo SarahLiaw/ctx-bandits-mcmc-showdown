@@ -162,13 +162,13 @@ def main():
                     'trials': args.num_trials,
                     'time_seconds': time.time() - agent_start
                 }
-                print(f"\n✅ Completed {agent} in {time.time() - agent_start:.2f} seconds")
+                print(f"\nCompleted {agent} in {time.time() - agent_start:.2f} seconds")
             except Exception as e:
                 results['failed'][agent] = {
                     'error': str(e),
                     'time_seconds': time.time() - agent_start
                 }
-                print(f"\n❌ Error in {agent}: {str(e)}")
+                print(f"\nError in {agent}: {str(e)}")
                 import traceback
                 traceback.print_exc()
     

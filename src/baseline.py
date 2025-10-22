@@ -44,7 +44,7 @@ class LinUCB(object):
         v = self.info['phi_a'](features, action, self.info['nb_arms']).unsqueeze(1)
         omega = self.Vt_inv @ v
         self.Vt_inv -= omega @ omega.T / (1 + torch.dot(omega.squeeze(), v.squeeze()))
-        self.bt +=  reward * v
+        self.bt += reward * v
         self.idx += 1
 
 class LinTS(object):
@@ -74,7 +74,7 @@ class LinTS(object):
 
     def update(self, action, reward, features, arm_idx):
         v = self.info['phi_a'](features, action, self.info['nb_arms']).unsqueeze(1)
-        self.bt +=  reward * v
+        self.bt += reward * v
         omega = self.Vt_inv @ v
         self.Vt_inv -= omega @ omega.T / (1 + torch.dot(omega.squeeze(), v.squeeze()))
         self.idx += 1

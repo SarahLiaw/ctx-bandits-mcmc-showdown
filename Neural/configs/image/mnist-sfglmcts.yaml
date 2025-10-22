@@ -2,12 +2,10 @@ data_name: mnist_784
 version: 1
 num_data: 50000
 
-# bandit
 num_arm: 10
 dim_context: 784
 T: 10000
 
-# train
 algo: FGLMCTS
 model: neural
 act: LeakyReLU
@@ -24,6 +22,5 @@ smooth_s: 10
 lambda_fg: 0.05
 b_fg: 10
 
-# log
 project: ContextualBandit-ICML
 group: MNIST-FGLMCTS

@@ -2,12 +2,10 @@ data_name: covertype
 version: 3
 num_data: 15000
 
-# bandit
 num_arm: 7
 dim_context: 54
 T: 15000
 
-# train
 algo: MALATS
 model: neural
 act: LeakyReLU
@@ -23,6 +21,5 @@ mala_step_size : 0.005
 mala_n_steps : 10
 mala_lazy : true
 
-# log
 project: ContextualBandit-Neurips
 group: Covertype-MALATS

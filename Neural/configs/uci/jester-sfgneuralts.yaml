@@ -2,12 +2,10 @@ data_name: jester
 version: 1
 num_data: 14936
 
-# bandit
 num_arm: 8 # k = 8 jokes as arms
 dim_context: 32 # d = 32 ratings as user context
 T: 10000 # Number of rounds
 
-# train
 algo: FGNeuralTS
 model: neural
 act: ReLU
@@ -18,13 +16,11 @@ reg: 0.01
 nu: 0.000001
 lr: 0.01
 
-# Smooth Feel-Good specific parameters
 feel_good: true
 fg_mode: "smooth"
 lambda_fg: 1.0
 b_fg: 1.0
 smooth_s: 10.0
 
-# log
 project: ContextualBandit-Neurips
 group: Jester-SFGNeuralTS 

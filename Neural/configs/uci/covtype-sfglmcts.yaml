@@ -2,12 +2,10 @@ data_name: covertype
 version: 3
 num_data: 15000
 
-# bandit
 num_arm: 7
 dim_context: 54
 T: 15000
 
-# train
 algo: LMCTS
 model: neural
 act: LeakyReLU
@@ -23,6 +21,5 @@ smooth_s: 10
 lambda_fg: 0.05
 b_fg: 10
 
-# log
 project: ContextualBandit-Neurips
 group: Covertype-LMCTS

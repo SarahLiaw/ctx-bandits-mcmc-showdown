@@ -1,4 +1,9 @@
+# Contextual Bandits MCMC Showdown - Git Ignore File
+# Comprehensive ignore patterns for a public machine learning repository
+
+# =============================================================================
 # Python
+# =============================================================================
 __pycache__/
 *.py[cod]
 *$py.class
@@ -16,95 +21,272 @@ parts/
 sdist/
 var/
 wheels/
+share/python-wheels/
 *.egg-info/
 .installed.cfg
 *.egg
+MANIFEST
 
-# Virtual Environment
-venv/
-env/
-ENV/
+# PyInstaller
+*.manifest
+*.spec
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+cover/
+
+# Translations
+*.mo
+*.pot
+
+# Django stuff:
+*.log
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+
+# Flask stuff:
+instance/
+.webassets-cache
+
+# Scrapy stuff:
+.scrapy
+
+# Sphinx documentation
+docs/_build/
+
+# PyBuilder
+.pybuilder/
+target/
 
 # Jupyter Notebook
 .ipynb_checkpoints
 
-# IDE
-.idea/
-.vscode/
-*.swp
-*.swo
-*~
-.DS_Store
+# IPython
+profile_default/
+ipython_config.py
+
+# pyenv
+.python-version
+
+# pipenv
+Pipfile.lock
+
+# poetry
+poetry.lock
+
+# pdm
+.pdm.toml
+
+# PEP 582
+__pypackages__/
+
+# Celery stuff
+celerybeat-schedule
+celerybeat.pid
+
+# SageMath parsed files
+*.sage.py
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Spyder project settings
+.spyderproject
+.spyproject
+
+# Rope project settings
+.ropeproject
+
+# mkdocs documentation
+/site
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pyre type checker
+.pyre/
+
+# pytype static type analyzer
+.pytype/
+
+# Cython debug symbols
+cython_debug/
+
+# =============================================================================
+# Machine Learning & Deep Learning
+# =============================================================================
+# Model files
+*.pth
+*.pt
+*.pkl
+*.pickle
+*.h5
+*.hdf5
+*.ckpt
+*.pb
+*.onnx
+*.tflite
+*.mlmodel
 
 # Data files
 *.csv
-*.h5
-*.hdf5
-*.pkl
-*.pth
-*.pt
+*.tsv
+*.json
+*.jsonl
+*.parquet
+*.feather
+*.arrow
 *.npy
 *.npz
+*.mat
+*.arff
+
+# Large datasets
 data/
-results/
-*_results_*/
+datasets/
+raw_data/
+processed_data/
+external/
+downloads/
 
-# Logs and experiment tracking
-wandb/
-*.log
-*.log.*
-.wandb
-logs/
-tensorboard/
-runs/
-checkpoints/
-
-# Temporary files
-.DS_Store
-*.bak
-*.tmp
-*.temp
-*.swp
-.~*
-
-# Cache
-__pycache__/
-.pytest_cache/
-.coverage
-wandb/
-*.wandb
-
-# Logs
-*.log
-logs/
-
-# Logs and databases
-*.log
-*.sql
-*.sqlite
-
+# =============================================================================
+# Experiment Tracking & Logging
+# =============================================================================
 # Weights & Biases
 wandb/
+.wandb/
+*.wandb
 
-# Results and outputs
-*.out
-*.err
+# TensorBoard
+tensorboard/
+runs/
+logs/
+tensorboard_logs/
+
+# MLflow
+mlruns/
+mlartifacts/
+
+# Sacred
+sacred_runs/
+
+# Neptune
+.neptune/
+
+# Comet
+.comet/
+
+# ClearML
+clearml.conf
+
+# =============================================================================
+# Results & Outputs
+# =============================================================================
 results/
+outputs/
+output/
+experiments/
+experiment_results/
+*_results/
+*_results_*/
 linear_results/
 linear_results_*/
 wheel_results/
+restaurant_results/
+cifar_results/
+mnist_results/
+uci_results/
 
-# W&B
-wandb/
+# Checkpoints
+checkpoints/
+checkpoint/
+models/
+saved_models/
+trained_models/
 
-# Environment files
+# =============================================================================
+# Configuration & Secrets
+# =============================================================================
+# Environment variables
 .env
-.venv
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
 
-# Jupyter Notebook
-.ipynb_checkpoints
+# API keys and secrets
+secrets.json
+config.json
+credentials.json
+api_keys.txt
+.secrets
 
-# OS generated files
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# =============================================================================
+# IDE & Editor Files
+# =============================================================================
+# VSCode
+.vscode/
+*.code-workspace
+
+# PyCharm
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# Vim
+*.swp
+*.swo
+*~
+.vimrc.local
+
+# Emacs
+*~
+\#*\#
+/.emacs.desktop
+/.emacs.desktop.lock
+*.elc
+auto-save-list
+tramp
+.\#*
+
+# =============================================================================
+# Operating System Files
+# =============================================================================
+# macOS
 .DS_Store
 .DS_Store?
 ._*
@@ -112,3 +294,100 @@ wandb/
 .Trashes
 ehthumbs.db
 Thumbs.db
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.cab
+*.msi
+*.msix
+*.msm
+*.msp
+*.lnk
+
+# Linux
+*~
+.fuse_hidden*
+.directory
+.Trash-*
+.nfs*
+
+# =============================================================================
+# Temporary Files
+# =============================================================================
+*.tmp
+*.temp
+*.bak
+*.backup
+*.orig
+*.rej
+*.swp
+*.swo
+*~
+.~*
+
+# =============================================================================
+# Cluster & HPC
+# =============================================================================
+# SLURM
+slurm-*.out
+*.slurm
+*.sbatch.log
+
+# PBS
+*.pbs
+*.qsub
+
+# SGE
+*.sge
+
+# =============================================================================
+# Documentation
+# =============================================================================
+# Sphinx
+docs/_build/
+docs/build/
+
+# MkDocs
+site/
+
+# =============================================================================
+# Package Managers
+# =============================================================================
+# Conda
+.conda/
+
+# pip
+pip-log.txt
+pip-delete-this-directory.txt
+
+# =============================================================================
+# Version Control
+# =============================================================================
+# Git
+*.orig
+*.rej
+
+# =============================================================================
+# Custom Project Files
+# =============================================================================
+# Analysis results
+*_regret_summary.csv
+*_analysis.csv
+*_results.csv
+
+# Large model files
+large_models/
+pretrained/
+
+# Cache directories
+.cache/
+cache/
+
+# Local configuration overrides
+local_config.yaml
+local_config.yml
+user_config.yaml
+user_config.yml

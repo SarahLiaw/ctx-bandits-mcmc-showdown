@@ -1,12 +1,10 @@
 data_name: shuttle
 version: 1
 
-# bandit
 num_arm: 7
 dim_context: 9
 T: 10000
 
-# train
 algo: FGLMCTS
 model: neural
 act: LeakyReLU
@@ -21,6 +19,5 @@ lambda_fg: 0.05
 b_fg: 10
 smooth_s: 10
 
-# log
 project: ContextualBandit-Neurips
 group: Shuttle-SFGLMCTS

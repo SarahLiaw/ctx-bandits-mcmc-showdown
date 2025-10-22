@@ -1,19 +1,18 @@
 data_name: CIFAR10
 
-# bandit
 num_arm: 10
 dim_context: 3072
-T: 20000
+T: 25000
 
-# train
 algo: LinTS
 model: neural
+act: ReLU
 loss: L2
 batchsize: 128
 num_iter: 50
 beta_inv: 0.00001
 lr: 0.01
+reg: 0.01
 
-# log
 project: ContextualBandit-Image
 group: Cifar10-LMCTS

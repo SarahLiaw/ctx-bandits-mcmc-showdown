@@ -1,0 +1,25 @@
+data_name: CIFAR10
+
+num_arm: 10
+dim_context: 3072
+T: 25000
+
+algo: SFGLMCTS
+model: neural
+act: LeakyReLU
+loss: L2
+batchsize: 128
+decay_step: 20
+num_iter: 100
+beta_inv: 0.000001
+lr: 0.01
+reg: 0.01
+
+feel_good: true
+fg_mode: "smooth"
+lambda_fg: 0.01
+b_fg: 1.0
+smooth_s: 10.0
+
+project: ContextualBandit-Image
+group: Cifar10-SFGLMCTS

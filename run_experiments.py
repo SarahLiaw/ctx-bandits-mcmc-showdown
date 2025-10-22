@@ -27,21 +27,21 @@ def run_command(command, timeout=3600):
             timeout=timeout
         )
         if result.returncode == 0:
-            logging.info(f"✓ Success: {command}")
+            logging.info(f"Success: {command}")
             if result.stdout:
                 logging.info(f"Output: {result.stdout}")
             return True
         else:
-            logging.error(f"✗ Failed: {command}")
+            logging.error(f"Failed: {command}")
             logging.error(f"Return code: {result.returncode}")
             if result.stderr:
                 logging.error(f"Error: {result.stderr}")
             return False
     except subprocess.TimeoutExpired:
-        logging.error(f"✗ Timeout: {command} (after {timeout}s)")
+        logging.error(f"Timeout: {command} (after {timeout}s)")
         return False
     except Exception as e:
-        logging.error(f"✗ Exception: {command} - {str(e)}")
+        logging.error(f"Exception: {command} - {str(e)}")
         return False
 
 def main():

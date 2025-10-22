@@ -2,12 +2,10 @@ data_name: jester
 version: 1
 num_data: 19181  # Complete subset of users rating all 40 jokes
 
-# bandit
 num_arm: 8      # k = 8 jokes as arms
 dim_context: 32 # d = 32 ratings as user context
 T: 10000         # Number of rounds
 
-# train
 algo: LMCTS
 model: neural
 act: LeakyReLU
@@ -16,5 +14,4 @@ num_iter: 100  # More update iterations per step
 beta_inv: 0.001  # 10x higher to increase exploration
 lr: 0.01
 
-# log
 project: ContextualBandit-Neurips

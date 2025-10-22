@@ -5,11 +5,11 @@ from train_utils.dataset import sample_data
 
 class FGNeuralTS(NeuralTS):
     """
-    Feel‑Good / Smoothed‑Feel‑Good Neural Thompson Sampling
+    Feel-Good / Smoothed-Feel-Good Neural Thompson Sampling
 
     feel_good : bool # turn the exploration bonus on/off (default False)
     fg_mode : str # "hard" or "smooth" (default "hard")
-    lambda_fg : float # weight λ
+    lambda_fg : float # weight lambda
     b_fg : float # cap b
     smooth_s : float # smoothing scale s (only used when fg_mode=="smooth")
     """
@@ -35,7 +35,7 @@ class FGNeuralTS(NeuralTS):
     def _fg_bonus(self, pred: torch.Tensor) -> torch.Tensor:
         """
         pred : (N, K) predicted rewards on stored contexts
-        returns scalar −λ Σ_i FG_i
+        returns scalar -lambda Sigma_i FG_i
         """
         if not self.feel_good:
             return 0.0

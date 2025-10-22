@@ -15,13 +15,13 @@ Found a bug or have a feature request? Please open an issue with the following i
 1. Fork the repository
 2. Clone your fork:
    ```bash
-   git clone https://github.com/SarahLiaw/MCMC_cb.git
-   cd MCMC_cb
+   git clone https://github.com/YOUR_USERNAME/ctx-bandits-mcmc-showdown.git
+   cd ctx-bandits-mcmc-showdown
    ```
 3. Set up the development environment:
    ```bash
    conda env create -f environment.yml
-   conda activate MCMC_cb
+   conda activate ctx-bandits-mcmc-showdown
    pip install -e .
    ```
 4. Create a new branch for your changes:

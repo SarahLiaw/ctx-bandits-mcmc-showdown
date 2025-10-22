@@ -2,12 +2,10 @@ data_name: adult
 version: 2
 num_data: 20000
 
-# bandit
 num_arm: 2
 dim_context: 14
 T: 10000
 
-# train
 algo: NeuralTS
 model: neural
 act: ReLU
@@ -18,6 +16,5 @@ reg: 0.001
 nu: 0.1
 lr: 0.01
 
-# log
 project: ContextualBandit-Neurips
 group: Adult-NeuralUCB

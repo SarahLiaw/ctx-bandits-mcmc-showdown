@@ -1,0 +1,18 @@
+data_name: restaurant
+
+num_arm: 127
+dim_context: 128
+T: 10000
+
+algo: NeuralEpsGreedy
+model: neural
+act: ReLU
+loss: L2
+batchsize: 128
+num_iter: 50
+eps: 0.01
+lr: 0.01
+reg: 0.01
+
+project: ContextualBandit-Restaurant
+group: Restaurant-NeuralEpsGreedy

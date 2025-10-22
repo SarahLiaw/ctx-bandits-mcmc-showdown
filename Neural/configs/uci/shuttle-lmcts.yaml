@@ -1,12 +1,10 @@
 data_name: shuttle
 version: 1
 
-# bandit
 num_arm: 7
 dim_context: 9
 T: 10000
 
-# train
 algo: LMCTS
 model: neural
 act: LeakyReLU
@@ -15,6 +13,5 @@ num_iter: 70
 beta_inv: 0.0001
 lr: 0.01
 
-# log
 project: ContextualBandit-Neurips
 group: Shuttle-LMCTS

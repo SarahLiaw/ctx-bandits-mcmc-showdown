@@ -7,19 +7,22 @@ import pandas
 import torch
 from torch.utils.data import Dataset, DataLoader
 
-# Import adapters for financial and jester datasets
+# Import adapters for financial, jester, and restaurant datasets
 try:
     from .financial_adapter import load_financial_for_bandit
     from .jester_adapter import load_jester_for_bandit
+    from .restaurant_adapter import load_restaurant_for_bandit
 except ImportError:
     # If relative import fails, try absolute import
     try:
         from train_utils.financial_adapter import load_financial_for_bandit
         from train_utils.jester_adapter import load_jester_for_bandit
+        from train_utils.restaurant_adapter import load_restaurant_for_bandit
     except ImportError:
         # If both fail, we'll handle it in the loaddata method
         load_financial_for_bandit = None
         load_jester_for_bandit = None
+        load_restaurant_for_bandit = None
 
 
 continuous_dataset = ['shuttle', 'covertype']
@@ -171,6 +174,44 @@ class AutoUCI(Dataset):
                             self.context[user, arm, arm * self.dim_context:(arm + 1) * self.dim_context] = contexts[user, arm]
                 
                 # Create labels (optimal joke for each user based on rewards)
+                self.label = torch.argmax(rewards, dim=1)  # Shape: (num_users,)
+            else:
+                # Fallback for different data format
+                self.context = contexts
+                self.label = torch.zeros(len(contexts), dtype=torch.long)
+            
+            # Limit data if specified
+            if num_data and len(self.context) > num_data:
+                self.context = self.context[:num_data]
+                self.label = self.label[:num_data]
+            
+            return
+        
+        # Handle restaurant dataset
+        if name == 'restaurant':
+            if load_restaurant_for_bandit is None:
+                raise ImportError("Restaurant adapter not available. Please ensure restaurant_adapter.py is in the train_utils directory.")
+            
+            # Load restaurant data using the adapter
+            dataset, contexts, rewards = load_restaurant_for_bandit(
+                num_restaurants=self.num_arms,
+                num_users=num_data if num_data else 1000,
+                feature_dim=self.dim_context
+            )
+            
+            # Convert to the format expected by AutoUCI
+            # For restaurant data, contexts are (num_users, num_restaurants, feature_dim)
+            # We need to create a dataset where each sample represents a user with all restaurant contexts
+            if len(contexts.shape) == 3:  # (num_users, num_restaurants, feature_dim)
+                num_users = contexts.shape[0]
+                # Create context tensor: (num_users, num_arms, dim_context * num_arms)
+                self.context = torch.zeros(num_users, self.num_arms, self.dim_context * self.num_arms)
+                for user in range(num_users):
+                    for arm in range(self.num_arms):
+                        if arm < contexts.shape[1]:  # Make sure we don't exceed available restaurants
+                            self.context[user, arm, arm * self.dim_context:(arm + 1) * self.dim_context] = contexts[user, arm]
+                
+                # Create labels (optimal restaurant for each user based on rewards)
                 self.label = torch.argmax(rewards, dim=1)  # Shape: (num_users,)
             else:
                 # Fallback for different data format

@@ -1,12 +1,10 @@
 data_name: shuttle
 version: 1
 
-# bandit
 num_arm: 7
 dim_context: 9
 T: 500
 
-# train
 algo: NeuralTS
 model: neural
 act: ReLU
@@ -17,6 +15,5 @@ batchsize: 128
 nu: 0.000001
 reg: 0.01
 
-# log
 project: ContextualBandit-Profile
 group: Shuttle-NeuralTS

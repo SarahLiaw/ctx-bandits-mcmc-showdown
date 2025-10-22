@@ -2,12 +2,10 @@ data_name: MagicTelescope
 version: 1
 num_data: 19000
 
-# bandit
 num_arm: 2
 dim_context: 10
 T: 10000
 
-# train
 algo: LMCTS
 model: neural
 act: ReLU
@@ -23,6 +21,5 @@ fg_mode:  hard
 lambda_fg: 0.05
 b_fg: 10
 
-# log
 project: ContextualBandit-Neurips
 group: Magic-LMCTS

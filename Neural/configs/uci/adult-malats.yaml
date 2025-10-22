@@ -2,12 +2,10 @@ data_name: adult
 version: 2
 num_data: 20000
 
-# bandit
 num_arm: 2
 dim_context: 14
 T: 10000
 
-# train
 algo: MALATS
 model: neural
 act: LeakyReLU
@@ -25,6 +23,5 @@ mala_step_size : 0.005
 mala_n_steps : 10
 mala_lazy : true
 
-# log
 project: ContextualBandit-Neurips
 group: Adult-MALATS

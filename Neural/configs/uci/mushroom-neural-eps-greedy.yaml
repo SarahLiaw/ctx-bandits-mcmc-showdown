@@ -2,12 +2,10 @@ data_name: mushroom
 version: 1
 num_data: 8000
 
-# bandit
 num_arm: 2
 dim_context: 22
 T: 10000
 
-# train
 algo: NeuralEpsGreedy
 model: neural
 act: ReLU
@@ -17,6 +15,5 @@ num_iter: 100
 lr: 0.01
 eps: 0.1
 
-# log
 project: ContextualBandit-Neurips
 group: Mushroom-NeuralEpsGreedy

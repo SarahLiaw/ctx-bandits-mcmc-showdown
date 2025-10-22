@@ -1,0 +1,25 @@
+data_name: restaurant
+
+num_arm: 127
+dim_context: 128
+T: 10000
+
+algo: SFGLMCTS
+model: neural
+act: LeakyReLU
+loss: L2
+batchsize: 128
+decay_step: 20
+num_iter: 100
+beta_inv: 0.0001
+lr: 0.001
+reg: 0.01
+
+feel_good: true
+fg_mode: "smooth"
+lambda_fg: 0.01
+b_fg: 1.0
+smooth_s: 10.0
+
+project: ContextualBandit-Restaurant
+group: Restaurant-SFGLMCTS
