@@ -35,6 +35,7 @@ SIGMA_REWARD = 0.5  # Reward noise std
 T_HORIZON = 2000    # Time horizon
 N_POSTERIOR_SAMPLES = 1500  # Number of posterior samples to visualize
 ETA = 1.0           # Inverse temperature for MCMC algorithms
+CORRELATED_CONTEXTS = True  # True: elliptical posteriors, False: circular posteriors
 
 # Algorithm configurations (subset for analysis)
 ALGORITHMS = [
@@ -42,9 +43,7 @@ ALGORITHMS = [
     'LMCTS',
     'FGLMCTS',
     'MALATS',
-    'HMCTS',
-    'PLMCTS',
-    'PHMCTS',
+    'PLMCTS',  # Preconditioned LMC (not HMC)
 ]
 
 # ============================================================================
@@ -56,9 +55,13 @@ def set_seed(seed):
     torch.manual_seed(seed)
     np.random.seed(seed)
 
-def generate_synthetic_data(k_arms, d_dim, t_horizon, lambda_prior, sigma_reward, seed=0):
+def generate_synthetic_data(k_arms, d_dim, t_horizon, lambda_prior, sigma_reward, seed=0, correlated=True):
     """
     Generate synthetic linear bandit data.
+    
+    Args:
+        correlated: If True, generate contexts with correlations (elliptical posteriors)
+                   If False, use i.i.d. N(0,I) contexts (circular posteriors)
     
     Returns:
         contexts: (T, d) context vectors
@@ -71,8 +74,26 @@ def generate_synthetic_data(k_arms, d_dim, t_horizon, lambda_prior, sigma_reward
     # Generate true parameters for each arm: β_i ~ N(0, λ^-1 I)
     true_betas = torch.randn(k_arms, d_dim) / np.sqrt(lambda_prior)
     
-    # Generate contexts: X_t ~ N(0, I)
-    contexts = torch.randn(t_horizon, d_dim)
+    if correlated:
+        # Generate contexts with strong correlations in first few dimensions
+        # This ensures β₁ vs β₂ plots show clear elliptical structure
+        
+        # Start with i.i.d. standard normal
+        contexts = torch.randn(t_horizon, d_dim)
+        
+        # Add strong correlation between first 2 dimensions
+        # Make β₁ have variance 3.0 and β₂ have variance 0.3
+        # Plus correlation of 0.6 between them
+        contexts[:, 0] = contexts[:, 0] * 1.7  # std = 1.7, var ≈ 3.0
+        contexts[:, 1] = contexts[:, 1] * 0.55 + 0.6 * contexts[:, 0]  # correlated with dim 0
+        
+        # Add moderate correlations to other dimensions
+        for i in range(2, min(d_dim, 10)):
+            scale = 1.0 + 0.5 * (i - 2) / 8  # Gradually varying scales
+            contexts[:, i] = contexts[:, i] * scale
+    else:
+        # Generate contexts: X_t ~ N(0, I) - original behavior
+        contexts = torch.randn(t_horizon, d_dim)
     
     # Compute optimal actions and rewards
     expected_rewards = contexts @ true_betas.T  # (T, k)
@@ -369,9 +390,11 @@ def main():
     # Generate synthetic data
     print("\n=== Generating Synthetic Data ===")
     contexts, true_betas, optimal_actions, optimal_rewards = generate_synthetic_data(
-        K_ARMS, D_DIM, T_HORIZON, LAMBDA_PRIOR, SIGMA_REWARD, seed=args.seed
+        K_ARMS, D_DIM, T_HORIZON, LAMBDA_PRIOR, SIGMA_REWARD, seed=args.seed, correlated=CORRELATED_CONTEXTS
     )
+    context_type = "correlated (elliptical posteriors)" if CORRELATED_CONTEXTS else "i.i.d. (circular posteriors)"
     print(f"Generated {T_HORIZON} timesteps, {K_ARMS} arms, {D_DIM} dimensions")
+    print(f"Context distribution: {context_type}")
     
     # Save data
     torch.save({
