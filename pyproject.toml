@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "ctx-bandits-mcmc"
-version = "1.0.0"
+version = "1.0.1"
 description = "Feel-Good Thompson Sampling for Contextual Bandits: a Markov Chain Monte Carlo Showdown"
 readme = "README.md"
 requires-python = ">=3.8"

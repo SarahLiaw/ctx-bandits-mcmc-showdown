@@ -20,7 +20,7 @@ Baseline algorithms:
 For detailed documentation, see: https://arxiv.org/abs/2507.15290
 """
 
-__version__ = "1.0.0"
+__version__ = "1.0.1"
 __author__ = "Emile Anand and Sarah Liaw"
 
 # Import key classes for convenience

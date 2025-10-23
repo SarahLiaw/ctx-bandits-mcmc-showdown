@@ -10,7 +10,7 @@ long_description = (this_directory / "README.md").read_text()
 
 setup(
     name="ctx-bandits-mcmc",
-    version="1.0.0",
+    version="1.0.1",
     author="Emile Anand and Sarah Liaw",
     author_email="emiletimothy@outlook.com", 
     description="Feel-Good Thompson Sampling for Contextual Bandits: a Markov Chain Monte Carlo Showdown",
