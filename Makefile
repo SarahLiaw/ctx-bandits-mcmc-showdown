@@ -1,4 +1,4 @@
-.PHONY: help test test-verbose test-quick posterior-analysis clean install build upload-test upload docs
+.PHONY: help test test-verbose test-quick posterior-analysis clean install build upload-test upload update-version
 
 help:
 	@echo "Available commands:"
@@ -19,6 +19,7 @@ help:
 	@echo "  make upload-test       - Upload to TestPyPI"
 	@echo "  make upload            - Upload to PyPI (production)"
 	@echo "  make install-local     - Install from local build"
+	@echo "  make update-version    - Interactive version update script"
 	@echo ""
 	@echo "Cleanup:"
 	@echo "  make clean             - Remove generated files and cache"
@@ -65,6 +66,9 @@ upload:
 	if [[ $$REPLY =~ ^[Yy]$$ ]]; then \
 		python -m twine upload dist/*; \
 	fi
+
+update-version:
+	@./update_version.sh
 
 clean:
 	rm -rf __pycache__ .pytest_cache

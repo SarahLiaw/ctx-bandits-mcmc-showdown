@@ -303,8 +303,25 @@ See [TESTING.md](TESTING.md) for detailed testing documentation.
 make install              # Install dependencies
 make test                 # Run tests
 make posterior-analysis   # Run posterior analysis
+make build                # Build distribution packages
+make upload-test          # Upload to TestPyPI
+make update-version       # Update package version (interactive)
 make clean                # Clean generated files
 ```
+
+### Updating Package Version
+
+To release a new version:
+
+```bash
+# Automated (recommended)
+make update-version
+
+# Or manual: update version in setup.py, pyproject.toml, src/__init__.py
+# Then: make clean-all && make build && make upload
+```
+
+See [VERSION_UPDATE_GUIDE.md](VERSION_UPDATE_GUIDE.md) for complete instructions.
 
 ### Adding New Agents
 
