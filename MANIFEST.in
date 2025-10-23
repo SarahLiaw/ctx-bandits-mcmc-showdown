@@ -1,0 +1,26 @@
+# Include documentation
+include README.md
+include QUICKSTART.md
+include TESTING.md
+include POSTERIOR_ANALYSIS_SUMMARY.md
+include LICENSE
+
+# Include configuration files
+include pytest.ini
+include pyproject.toml
+include setup.py
+include Makefile
+
+# Include config files
+recursive-include config *.json *.yaml *.yml
+
+# Include tests
+include test_*.py
+recursive-include tests *.py
+
+# Exclude unnecessary files
+global-exclude __pycache__
+global-exclude *.py[cod]
+global-exclude .DS_Store
+global-exclude *.so
+global-exclude .git*
