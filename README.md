@@ -47,7 +47,7 @@ pip install ctx-bandits-mcmc[dev,neural]
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/ctx-bandits-mcmc-showdown.git
+git clone https://github.com/SarahLiaw/ctx-bandits-mcmc-showdown.git
 cd ctx-bandits-mcmc-showdown
 
 # Install the package
@@ -60,7 +60,7 @@ pip install -e .[dev]
 ### Option 3: Install from GitHub
 
 ```bash
-pip install git+https://github.com/yourusername/ctx-bandits-mcmc-showdown.git
+pip install git+https://github.com/SarahLiaw/ctx-bandits-mcmc-showdown.git
 ```
 
 For detailed installation instructions, platform-specific notes, and troubleshooting, see [INSTALL.md](INSTALL.md).

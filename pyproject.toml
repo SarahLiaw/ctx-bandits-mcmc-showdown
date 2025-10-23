@@ -59,9 +59,9 @@ neural = [
 ctx-bandits-posterior = "posterior_analysis:main"
 
 [project.urls]
-Homepage = "https://github.com/yourusername/ctx-bandits-mcmc-showdown"
-Documentation = "https://github.com/yourusername/ctx-bandits-mcmc-showdown/README.md"
-Repository = "https://github.com/yourusername/ctx-bandits-mcmc-showdown"
+Homepage = "https://github.com/SarahLiaw/ctx-bandits-mcmc-showdown"
+Documentation = "https://github.com/SarahLiaw/ctx-bandits-mcmc-showdown/README.md"
+Repository = "https://github.com/SarahLiaw/ctx-bandits-mcmc-showdown"
 Paper = "https://arxiv.org/abs/2507.15290"
 
 [tool.setuptools]

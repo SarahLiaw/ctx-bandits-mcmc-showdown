@@ -129,12 +129,12 @@ pip install ctx-bandits-mcmc[dev,neural]
 
 ### **3. From GitHub**
 ```bash
-pip install git+https://github.com/yourusername/ctx-bandits-mcmc-showdown.git
+pip install git+https://github.com/SarahLiaw/ctx-bandits-mcmc-showdown.git
 ```
 
 ### **4. From Source (Development)**
 ```bash
-git clone https://github.com/yourusername/ctx-bandits-mcmc-showdown.git
+git clone https://github.com/SarahLiaw/ctx-bandits-mcmc-showdown.git
 cd ctx-bandits-mcmc-showdown
 pip install -e .[dev]
 ```

@@ -67,8 +67,8 @@ setup(
     keywords="thompson-sampling contextual-bandits mcmc reinforcement-learning bayesian",
     project_urls={
         "Paper": "https://arxiv.org/abs/2507.15290",
-        "Bug Reports": "https://github.com/yourusername/ctx-bandits-mcmc-showdown/issues",
-        "Source": "https://github.com/yourusername/ctx-bandits-mcmc-showdown",
+        "Bug Reports": "https://github.com/SarahLiaw/ctx-bandits-mcmc-showdown/issues",
+        "Source": "https://github.com/SarahLiaw/ctx-bandits-mcmc-showdown",
     },
     include_package_data=True,
     zip_safe=False,

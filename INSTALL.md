@@ -28,7 +28,7 @@ pip install ctx-bandits-mcmc[dev,neural]
 
 ```bash
 # Clone repository
-git clone https://github.com/yourusername/ctx-bandits-mcmc-showdown.git
+git clone https://github.com/SarahLiaw/ctx-bandits-mcmc-showdown.git
 cd ctx-bandits-mcmc-showdown
 
 # Install in standard mode
@@ -56,13 +56,13 @@ pip install -e .[dev]
 
 ```bash
 # Latest release
-pip install git+https://github.com/yourusername/ctx-bandits-mcmc-showdown.git
+pip install git+https://github.com/SarahLiaw/ctx-bandits-mcmc-showdown.git
 
 # Specific branch
-pip install git+https://github.com/yourusername/ctx-bandits-mcmc-showdown.git@main
+pip install git+https://github.com/SarahLiaw/ctx-bandits-mcmc-showdown.git@main
 
 # Specific tag/version
-pip install git+https://github.com/yourusername/ctx-bandits-mcmc-showdown.git@v1.0.0
+pip install git+https://github.com/SarahLiaw/ctx-bandits-mcmc-showdown.git@v1.0.0
 ```
 
 ---
@@ -246,7 +246,7 @@ Complete development environment setup:
 
 ```bash
 # Clone and navigate
-git clone https://github.com/yourusername/ctx-bandits-mcmc-showdown.git
+git clone https://github.com/SarahLiaw/ctx-bandits-mcmc-showdown.git
 cd ctx-bandits-mcmc-showdown
 
 # Create virtual environment
@@ -282,5 +282,5 @@ After installation:
 ## Getting Help
 
 - **Documentation**: [README.md](README.md)
-- **Issues**: https://github.com/yourusername/ctx-bandits-mcmc-showdown/issues
+- **Issues**: https://github.com/SarahLiaw/ctx-bandits-mcmc-showdown/issues
 - **Paper**: https://arxiv.org/abs/2507.15290
