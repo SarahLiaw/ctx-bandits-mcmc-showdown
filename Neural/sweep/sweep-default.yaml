@@ -32,4 +32,4 @@ command:
   - ${program}
 
 project: ContextualBandit-simulation
-entity: hzzheng
+entity: 

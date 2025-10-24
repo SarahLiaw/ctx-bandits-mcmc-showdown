@@ -23,5 +23,5 @@ b_fg: 10
 smooth_s: 10.0
 
 
-project: ContextualBandit-Neurips
+project: ContextualBandit-Update
 group: MNIST-FGNeuralTS 

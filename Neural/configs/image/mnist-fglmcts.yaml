@@ -21,5 +21,5 @@ fg_mode:  hard
 lambda_fg: 0.05
 b_fg: 10
 
-project: ContextualBandit-ICML
+project: ContextualBandit-Update
 group: MNIST-FGLMCTS

@@ -16,5 +16,5 @@ lr: 0.01
 reg: 0.00001
 nu: 0.00001
 
-project: ContextualBandit-Neurips
+project: ContextualBandit-Update
 group: MNIST-NeuralTS

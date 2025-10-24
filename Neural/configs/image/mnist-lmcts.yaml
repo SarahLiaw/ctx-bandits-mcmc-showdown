@@ -16,5 +16,5 @@ num_iter: 100
 beta_inv: 0.00001
 lr: 0.01
 
-project: ContextualBandit-Neurips
+project: ContextualBandit-Update
 group: MNIST-LMCTS

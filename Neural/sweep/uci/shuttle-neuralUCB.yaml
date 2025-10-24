@@ -37,4 +37,4 @@ command:
 
 name: Shuttle-NeuralUCB
 project: ContextualBandit-UCI
-entity: hzzheng
+entity: 

@@ -40,7 +40,7 @@ except ModuleNotFoundError as err:
     LangevinMC = _MissingAlgo('LangevinMC')
     PrecondLangevinMC = _MissingAlgo('PrecondLangevinMC')
 from models.classifier import LinearNet, FCN
-from models.conv import MiniCNN, MiniConv
+from models.conv import MiniCNN, MiniConv, MiniCNN_MNIST
 from models.linear import LinearModel
 from train_utils.dataset import Collector
 from .losses import construct_loss
@@ -350,9 +350,33 @@ def construct_agent_cls(config, device):
                                 batch_size=batchsize,
                                 reduce=reduce,
                                 device=device)
+    elif algo_name == 'SFGLMCTS':
+        beta_inv = config['beta_inv'] * dim_context * np.log(T)
+        # create Lagevine Monte Carol optimizer
+        optimizer = LangevinMC(model.parameters(), lr=config['lr'],
+                               beta_inv=beta_inv, weight_decay=2.0)
+        # Define loss function
+        if 'loss' not in config:
+            criterion = construct_loss('L2', reduction='sum')
+        else:
+            criterion = construct_loss(config['loss'], reduction='sum')
+
+        collector = Collector()
+        agent = FGLMCTS(model, optimizer, criterion,
+                      collector,
+                      name='SFGLMCTS',
+                      batch_size=batchsize,
+                      reduce=reduce,
+                      decay_step=decay,
+                      feel_good=config.get('feel_good', True),
+                      fg_mode='smooth',  # Force smooth mode for SFGLMCTS
+                      lambda_fg=config.get('lambda_fg', 0.01),
+                      b_fg=config.get('b_fg', 1.0),
+                      smooth_s=config.get('smooth_s', 10.0),
+                      device=device)
     else:
         raise ValueError(f'{algo_name} is not supported. Please choose from '
-                         f'LinTS, LMCTS, NeuralTS, NeuralUCB, EpsGreedy')
+                         f'LinTS, LMCTS, NeuralTS, NeuralUCB, EpsGreedy, SFGLMCTS')
     return agent
 
 
@@ -530,7 +554,7 @@ def construct_agent_sim(config, device):
                        device=device)
     else:
         raise ValueError(f'{algo_name} is not supported. Please choose from '
-                         f'LinTS, LMCTS, NeuralTS, NeuralUCB, EpsGreedy')
+                         f'LinTS, LMCTS, NeuralTS, NeuralUCB, EpsGreedy, SFGLMCTS')
     return agent
 
 
@@ -541,9 +565,18 @@ def construct_agent_image(config, device):
     T = config['T']
     batchsize = config['batchsize'] if 'batchsize' in config else None
     decay = config['decay_step'] if 'decay_step' in config else 20
+    
+    # Determine number of channels based on dataset
+    if config.get('data_name') == 'mnist_784':
+        channels_per_arm = 1  # MNIST has 1 channel
+    else:
+        channels_per_arm = 3  # CIFAR-10 has 3 channels
     if algo_name == 'LMCTS':
         beta_inv = config['beta_inv'] * np.log(T)
-        model = MiniCNN(in_channel=3 * num_arm).to(device)
+        if config.get('data_name') == 'mnist_784':
+            model = MiniCNN_MNIST(in_channel=channels_per_arm * num_arm).to(device)
+        else:
+            model = MiniCNN(in_channel=channels_per_arm * num_arm).to(device)
         optimizer = LangevinMC(model.parameters(), lr=config['lr'],
                                beta_inv=beta_inv, weight_decay=2.0)
         # Define loss function
@@ -563,7 +596,10 @@ def construct_agent_image(config, device):
     
     elif algo_name == "MALATS":
         beta_inv = config['beta_inv'] * dim_context * np.log(T)
-        model = MiniCNN(in_channel=3 * num_arm).to(device)
+        if config.get('data_name') == 'mnist_784':
+            model = MiniCNN_MNIST(in_channel=channels_per_arm * num_arm).to(device)
+        else:
+            model = MiniCNN(in_channel=channels_per_arm * num_arm).to(device)
         optimizer = LangevinMC(model.parameters(), lr=config['lr'],
                                beta_inv=beta_inv, weight_decay=2.0)
         # Define loss function
@@ -585,7 +621,10 @@ def construct_agent_image(config, device):
     
     
     elif algo_name == 'NeuralTS':
-        model = MiniCNN(in_channel=3 * num_arm).to(device)
+        if config.get('data_name') == 'mnist_784':
+            model = MiniCNN_MNIST(in_channel=channels_per_arm * num_arm).to(device)
+        else:
+            model = MiniCNN(in_channel=channels_per_arm * num_arm).to(device)
         optimizer = SGD(model.parameters(), lr=config['lr'], weight_decay=config['reg'])
         # Define loss function
         if 'loss' not in config:
@@ -603,7 +642,10 @@ def construct_agent_image(config, device):
                          reduce=10,
                          device=device)
     elif algo_name == 'FGNeuralTS':
-        model = MiniCNN(in_channel=3 * num_arm).to(device)
+        if config.get('data_name') == 'mnist_784':
+            model = MiniCNN_MNIST(in_channel=channels_per_arm * num_arm).to(device)
+        else:
+            model = MiniCNN(in_channel=channels_per_arm * num_arm).to(device)
         optimizer = SGD(model.parameters(), lr=config['lr'], weight_decay=config['reg'])
         # Define loss function
         if 'loss' not in config:
@@ -626,7 +668,10 @@ def construct_agent_image(config, device):
                            smooth_s=config.get('smooth_s', 10.0),
                            device=device)
     elif algo_name == 'NeuralUCB':
-        model = MiniCNN(in_channel=3 * num_arm).to(device)
+        if config.get('data_name') == 'mnist_784':
+            model = MiniCNN_MNIST(in_channel=channels_per_arm * num_arm).to(device)
+        else:
+            model = MiniCNN(in_channel=channels_per_arm * num_arm).to(device)
         optimizer = SGD(model.parameters(), lr=config['lr'], weight_decay=config['reg'])
         # Define loss function
         if 'loss' not in config:
@@ -644,7 +689,10 @@ def construct_agent_image(config, device):
                           reg=config['reg'],
                           device=device)
     elif algo_name == 'NeuralEpsGreedy':
-        model = MiniCNN(in_channel=3 * num_arm).to(device)
+        if config.get('data_name') == 'mnist_784':
+            model = MiniCNN_MNIST(in_channel=channels_per_arm * num_arm).to(device)
+        else:
+            model = MiniCNN(in_channel=channels_per_arm * num_arm).to(device)
         optimizer = SGD(model.parameters(), lr=config['lr'])
         # Define loss function
         if 'loss' not in config:
@@ -678,7 +726,7 @@ def construct_agent_image(config, device):
                              device=device)
 
     elif algo_name == 'SFGNeuralTS':
-        model = MiniCNN(in_channel=3 * num_arm).to(device)
+        model = MiniCNN(in_channel=channels_per_arm * num_arm).to(device)
         optimizer = SGD(model.parameters(), lr=config['lr'], weight_decay=config['reg'])
         # Define loss function
         if 'loss' not in config:
@@ -703,7 +751,10 @@ def construct_agent_image(config, device):
     
     elif algo_name == 'FGLMCTS':
         beta_inv = config['beta_inv'] * np.log(T)
-        model = MiniCNN(in_channel=3 * num_arm).to(device)
+        if config.get('data_name') == 'mnist_784':
+            model = MiniCNN_MNIST(in_channel=channels_per_arm * num_arm).to(device)
+        else:
+            model = MiniCNN(in_channel=channels_per_arm * num_arm).to(device)
         optimizer = LangevinMC(model.parameters(), lr=config['lr'],
                                beta_inv=beta_inv, weight_decay=2.0)
         # Define loss function
@@ -726,8 +777,12 @@ def construct_agent_image(config, device):
                       device=device)
     
     elif algo_name == 'SFGLMCTS':
-        beta_inv = config['beta_inv'] * np.log(T)
-        model = MiniCNN(in_channel=3 * num_arm).to(device)
+        beta_inv = config['beta_inv'] * dim_context * np.log(T)
+        if config.get('data_name') == 'mnist_784':
+            model = MiniCNN_MNIST(in_channel=channels_per_arm * num_arm).to(device)
+        else:
+            model = MiniCNN(in_channel=channels_per_arm * num_arm).to(device)
+        # create Lagevine Monte Carol optimizer
         optimizer = LangevinMC(model.parameters(), lr=config['lr'],
                                beta_inv=beta_inv, weight_decay=2.0)
         # Define loss function
@@ -735,12 +790,13 @@ def construct_agent_image(config, device):
             criterion = construct_loss('L2', reduction='sum')
         else:
             criterion = construct_loss(config['loss'], reduction='sum')
+
         collector = Collector()
         agent = FGLMCTS(model, optimizer, criterion,
                       collector,
                       name='SFGLMCTS',
                       batch_size=batchsize,
-                      reduce=5,
+                      reduce=reduce,
                       decay_step=decay,
                       feel_good=config.get('feel_good', True),
                       fg_mode='smooth',  # Force smooth mode for SFGLMCTS

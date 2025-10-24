@@ -37,4 +37,4 @@ command:
 
 name: NeuralEpsGreedy-covtype
 project: ContextualBandit-UCI
-entity: hzzheng
+entity: 

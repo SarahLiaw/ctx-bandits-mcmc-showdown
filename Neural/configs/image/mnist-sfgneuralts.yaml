@@ -18,9 +18,9 @@ nu: 0.00001
 
 feel_good: true
 fg_mode: "smooth"
-lambda_fg: 1.0
-b_fg: 1.0
+lambda_fg: 0.05
+b_fg: 10
 smooth_s: 10.0
 
-project: ContextualBandit-Neurips
+project: ContextualBandit-Update
 group: MNIST-SFGNeuralTS 

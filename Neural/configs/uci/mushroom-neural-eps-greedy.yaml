@@ -15,5 +15,5 @@ num_iter: 100
 lr: 0.01
 eps: 0.1
 
-project: ContextualBandit-Neurips
+project: ContextualBandit-Update
 group: Mushroom-NeuralEpsGreedy

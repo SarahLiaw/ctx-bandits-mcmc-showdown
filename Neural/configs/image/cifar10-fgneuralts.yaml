@@ -6,7 +6,7 @@ T: 25000
 
 algo: FGNeuralTS
 model: neural
-act: LeakyReLU
+act: ReLU
 loss: L2
 batchsize: 128
 num_iter: 50

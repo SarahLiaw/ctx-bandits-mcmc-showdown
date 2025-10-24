@@ -37,4 +37,4 @@ command:
 
 name: Adult-NeuralEpsGreedy
 project: ContextualBandit-UCI
-entity: hzzheng
+entity: 

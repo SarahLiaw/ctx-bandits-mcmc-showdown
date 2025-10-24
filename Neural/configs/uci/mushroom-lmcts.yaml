@@ -13,8 +13,8 @@ layers: [100]
 reduce: 2
 loss: L2
 num_iter: 100
-beta_inv: 0.000001
+beta_inv: 0.00001
 lr: 0.01
 
-project: ContextualBandit-Neurips
+project: ContextualBandit-Update
 group: Mushroom-LMCTS

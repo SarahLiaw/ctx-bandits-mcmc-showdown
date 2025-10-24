@@ -67,6 +67,35 @@ class MiniCNN(nn.Module):
         return self.network(xb)
 
 
+class MiniCNN_MNIST(nn.Module):
+    def __init__(self, in_channel):
+        super().__init__()
+        self.network = nn.Sequential(
+            nn.Conv2d(in_channel, 16, kernel_size=3, padding=1),
+            nn.ReLU(),
+            nn.MaxPool2d(2, 2),  # output: 16 x 14 x 14
+            nn.BatchNorm2d(16),
+
+            nn.Conv2d(16, 32, kernel_size=3, stride=1, padding=1),
+            nn.ReLU(),
+            nn.MaxPool2d(2, 2),  # output: 32 x 7 x 7
+            nn.BatchNorm2d(32),
+
+            nn.Conv2d(32, 64, kernel_size=3, stride=1, padding=1),
+            nn.ReLU(),
+            nn.MaxPool2d(2, 2),  # output: 64 x 3 x 3
+            nn.BatchNorm2d(64),
+
+            nn.Flatten(),
+            nn.Linear(64 * 3 * 3, 128),  # 64 * 3 * 3 = 576
+            nn.ReLU(),
+            nn.Linear(128, 1),
+        )
+
+    def forward(self, xb):
+        return self.network(xb)
+
+
 class MiniConv(nn.Module):
     def __init__(self, in_channel):
         super().__init__()

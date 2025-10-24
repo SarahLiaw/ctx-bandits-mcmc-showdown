@@ -40,4 +40,4 @@ command:
 
 name: NeuralUCB-covtype
 project: ContextualBandit-UCI
-entity: hzzheng
+entity: 

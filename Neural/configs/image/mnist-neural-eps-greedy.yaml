@@ -6,16 +6,14 @@ num_arm: 10
 dim_context: 784
 T: 10000
 
-algo: NeuralUCB
+algo: NeuralEpsGreedy
 model: neural
 act: ReLU
 layers: [100]
-batchsize: 512
 loss: L2
 num_iter: 100
 lr: 0.01
-reg: 0.00001
-nu: 0.00001
+eps: 0.01
 
 project: ContextualBandit-Update
-group: MNIST-NeuralUCB
+group: MNIST-NeuralEpsGreedy

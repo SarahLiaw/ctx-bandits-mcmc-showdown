@@ -31,4 +31,4 @@ command:
 
 name: Linear-eps-greedy
 project: ContextualBandit-simulation
-entity: hzzheng
+entity: 
